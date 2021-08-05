@@ -4,10 +4,12 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
+import { Sample } from './sample.entity';
 
 @Entity()
-export class Stock {
+export class SampleInfo {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
@@ -22,8 +24,6 @@ export class Stock {
   customerConsulting: string;
   @Column()
   sampleQuestion: string;
-  @Column()
-  sampleId: number;
   @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({
@@ -37,4 +37,6 @@ export class Stock {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+  @OneToOne(() => Sample, (sample) => sample.sampleInfo)
+  sample: Sample;
 }

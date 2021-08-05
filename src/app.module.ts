@@ -7,6 +7,12 @@ import { Taxi } from './taxi/entity/taxi.entity';
 import { CustomerModule } from './customer/customer.module';
 import { StockModule } from './stock/stock.module';
 import { SampleModule } from './sample/sample.module';
+import { Customer } from './customer/customer.entity';
+import { Sample } from './sample/entity/sample.entity';
+import { SampleInfo } from './sample/entity/sampleInfo.entity';
+import { SampleStock } from './sample/entity/sampleStock.entity';
+import { Stock } from './stock/stock.entity';
+import { Driver } from './taxi/entity/driver.entity';
 
 @Module({
   imports: [
@@ -18,7 +24,15 @@ import { SampleModule } from './sample/sample.module';
       username: process.env.USERNAME,
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
-      entities: [Taxi],
+      entities: [
+        Taxi,
+        Driver,
+        Customer,
+        Sample,
+        SampleInfo,
+        SampleStock,
+        Stock,
+      ],
       synchronize: true,
     }),
     CustomerModule,

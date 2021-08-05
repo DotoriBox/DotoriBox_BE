@@ -4,7 +4,12 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
 } from 'typeorm';
+import { Driver } from './driver.entity';
+import { Customer } from '../../customer/customer.entity';
 
 @Entity()
 export class Taxi {
@@ -25,4 +30,9 @@ export class Taxi {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+  @OneToOne(() => Driver, (driver) => driver.taxi)
+  @JoinColumn()
+  driver: Driver;
+  @OneToMany(() => Customer, (customer) => customer.taxi)
+  customers: Customer[];
 }

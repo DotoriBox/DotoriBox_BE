@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Taxi } from './taxi.entity';
 
 @Entity()
 export class Driver {
@@ -33,4 +35,6 @@ export class Driver {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+  @OneToOne(() => Taxi, (taxi) => taxi.driver)
+  taxi: Taxi;
 }

@@ -4,7 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { Sample } from '../sample/entity/sample.entity';
 
 @Entity()
 export class Stock {
@@ -14,8 +16,6 @@ export class Stock {
   stock: number;
   @Column()
   sales: number;
-  @Column()
-  sampleId: number;
   @Column()
   taxiId: number;
   @Column({ default: false })
@@ -31,4 +31,6 @@ export class Stock {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+  @ManyToOne(() => Sample, (sample) => sample.stocks)
+  sample: Sample;
 }
