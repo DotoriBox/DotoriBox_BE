@@ -37,10 +37,8 @@ export class Sample {
   })
   updatedAt: Date;
   @OneToOne(() => SampleInfo, (sampleInfo) => sampleInfo.sample)
-  @JoinColumn()
   sampleInfo: SampleInfo;
   @OneToOne(() => SampleStock, (sampleStock) => sampleStock.sample)
-  @JoinColumn()
   sampleStock: SampleStock;
   @OneToMany(() => Stock, (stock) => stock.sample)
   stocks: Stock[];

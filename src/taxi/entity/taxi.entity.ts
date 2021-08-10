@@ -31,7 +31,6 @@ export class Taxi {
   })
   updatedAt: Date;
   @OneToOne(() => Driver, (driver) => driver.taxi)
-  @JoinColumn()
   driver: Driver;
   @OneToMany(() => Customer, (customer) => customer.taxi)
   customers: Customer[];

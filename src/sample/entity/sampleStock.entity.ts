@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Sample } from './sample.entity';
 
@@ -28,5 +29,6 @@ export class SampleStock {
   })
   updatedAt: Date;
   @OneToOne(() => Sample, (sample) => sample.sampleStock)
+  @JoinColumn()
   sample: Sample;
 }

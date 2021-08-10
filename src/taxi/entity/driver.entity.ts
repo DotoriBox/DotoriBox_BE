@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -22,7 +24,7 @@ export class Driver {
   accountNumber: string;
   @Column()
   group: string;
-  @Column()
+  @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({
     type: 'timestamp',
@@ -36,5 +38,6 @@ export class Driver {
   })
   updatedAt: Date;
   @OneToOne(() => Taxi, (taxi) => taxi.driver)
+  @JoinColumn()
   taxi: Taxi;
 }
