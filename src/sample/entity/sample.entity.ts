@@ -23,6 +23,8 @@ export class Sample {
   explain: string;
   @Column()
   sampleName: string;
+  @Column({ nullable: true })
+  image: string;
   @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({
