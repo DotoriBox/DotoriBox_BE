@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Driver } from './driver.entity';
 import { Customer } from '../../customer/customer.entity';
+import { Stock } from '../../stock/stock.entity';
 
 @Entity()
 export class Taxi {
@@ -32,6 +33,9 @@ export class Taxi {
   updatedAt: Date;
   @OneToOne(() => Driver, (driver) => driver.taxi)
   driver: Driver;
+  @OneToMany(() => Stock, (stock) => stock.taxi)
+  stocks: Stock[];
   @OneToMany(() => Customer, (customer) => customer.taxi)
   customers: Customer[];
+  //  passenger는 select alias로 해결
 }

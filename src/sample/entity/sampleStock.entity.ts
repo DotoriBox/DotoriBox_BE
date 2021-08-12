@@ -31,4 +31,6 @@ export class SampleStock {
   @OneToOne(() => Sample, (sample) => sample.sampleStock)
   @JoinColumn()
   sample: Sample;
+  @Column({ nullable: true })
+  sampleId: number;
 }

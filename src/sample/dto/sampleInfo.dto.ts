@@ -10,4 +10,5 @@ export class SampleInfoDto {
   sampleQuestion?: string;
   isDeleted?: boolean;
   sample?: SampleDto;
+  sampleId?: number;
 }

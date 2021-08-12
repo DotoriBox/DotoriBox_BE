@@ -41,4 +41,6 @@ export class SampleInfo {
   @OneToOne(() => Sample, (sample) => sample.sampleInfo)
   @JoinColumn()
   sample: Sample;
+  @Column({ nullable: true })
+  sampleId: number;
 }

@@ -7,6 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Sample } from '../sample/entity/sample.entity';
+import { Taxi } from '../taxi/entity/taxi.entity';
 
 @Entity()
 export class Stock {
@@ -16,8 +17,6 @@ export class Stock {
   stock: number;
   @Column()
   sales: number;
-  @Column()
-  taxiId: number;
   @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({
@@ -33,4 +32,10 @@ export class Stock {
   updatedAt: Date;
   @ManyToOne(() => Sample, (sample) => sample.stocks)
   sample: Sample;
+  @Column({ nullable: true })
+  sampleId: number;
+  @ManyToOne(() => Taxi, (taxi) => taxi.customers)
+  taxi: Taxi;
+  @Column({ nullable: true })
+  taxiId: number;
 }

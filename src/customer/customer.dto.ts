@@ -5,5 +5,7 @@ export class CustomerDto {
   id?: number;
   isMale?: boolean;
   taxi?: TaxiDto;
+  taxiId?: number;
   sample?: SampleDto;
+  sampleId?: number;
 }

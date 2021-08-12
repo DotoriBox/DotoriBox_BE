@@ -3,5 +3,6 @@ export class StockDto {
   stock?: number;
   sales?: number;
   taxiId?: number;
+  sampleId?: number;
   isDeleted?: boolean;
 }

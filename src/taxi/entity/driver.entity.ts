@@ -40,4 +40,6 @@ export class Driver {
   @OneToOne(() => Taxi, (taxi) => taxi.driver)
   @JoinColumn()
   taxi: Taxi;
+  @Column({ nullable: true })
+  taxiId: number;
 }

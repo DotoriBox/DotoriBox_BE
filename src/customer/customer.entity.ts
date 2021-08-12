@@ -13,8 +13,6 @@ import { Sample } from '../sample/entity/sample.entity';
 export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
-  sampleId: number;
   @Column({ default: true })
   isMale: boolean;
   @CreateDateColumn({
@@ -30,6 +28,10 @@ export class Customer {
   updatedAt: Date;
   @ManyToOne(() => Taxi, (taxi) => taxi.customers)
   taxi: Taxi;
+  @Column({ nullable: true })
+  taxiId: number;
   @ManyToOne(() => Sample, (sample) => sample.customers)
   sample: Sample;
+  @Column({ nullable: true })
+  sampleId: number;
 }

@@ -5,4 +5,5 @@ export class SampleStockDto {
   amount?: number;
   sales?: number;
   sample?: SampleDto;
+  sampleId?: number;
 }
