@@ -62,10 +62,20 @@ export class TaxiService {
     return result;
   }
 
-  async deleteTaxi(taxiDto: TaxiDto) {
-    return this.taxiRepository.update(taxiDto, {
-      isDeleted: true,
-    });
+  async deleteTaxi(taxiId: number) {
+    const result = this.taxiRepository.update(
+      {
+        id: taxiId,
+        isDeleted: false,
+      },
+      {
+        isDeleted: true,
+      },
+    );
+
+    if (!result) throw new NotFoundException();
+
+    return result;
   }
 
   async getAllTaxi(isDeleted: boolean, query: Record<string, unknown>) {

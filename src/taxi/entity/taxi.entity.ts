@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
-  JoinColumn,
   OneToMany,
 } from 'typeorm';
 import { Driver } from './driver.entity';
