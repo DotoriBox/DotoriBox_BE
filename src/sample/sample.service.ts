@@ -9,6 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SampleDto } from './dto/sample.dto';
 import { unlink } from 'fs/promises';
 import { Stock } from '../stock/stock.entity';
+import { SampleInfo } from './entity/sampleInfo.entity';
+import { SampleStock } from './entity/sampleStock.entity';
 
 @Injectable()
 export class SampleService {
@@ -17,9 +19,35 @@ export class SampleService {
     private readonly sampleRepository: Repository<Sample>,
     @InjectRepository(Stock)
     private readonly stockRepository: Repository<Stock>,
+    @InjectRepository(SampleInfo)
+    private readonly sampleInfoRepository: Repository<SampleInfo>,
+    @InjectRepository(SampleStock)
+    private readonly sampleStockRepository: Repository<SampleStock>,
   ) {}
 
   async updateSample(sampleId: number, sampleDto: SampleDto) {
+    if (sampleDto.sampleInfo) {
+      await this.sampleInfoRepository.update(
+        {
+          sampleId,
+        },
+        sampleDto.sampleInfo,
+      );
+
+      delete sampleDto.sampleInfo;
+    }
+
+    if (sampleDto.sampleStock) {
+      await this.sampleStockRepository.update(
+        {
+          sampleId,
+        },
+        sampleDto.sampleStock,
+      );
+
+      delete sampleDto.sampleStock;
+    }
+
     const result = await this.sampleRepository.update(
       {
         id: sampleId,
@@ -44,7 +72,10 @@ export class SampleService {
   }
 
   async createSample(sampleDto: SampleDto) {
-    return this.sampleRepository.create(sampleDto);
+    await this.sampleInfoRepository.save(sampleDto.sampleInfo);
+    await this.sampleStockRepository.save(sampleDto.sampleStock);
+
+    return this.sampleRepository.save(sampleDto);
   }
 
   async getSampleAll(query: Record<string, unknown>) {
@@ -54,6 +85,7 @@ export class SampleService {
       where: {
         isDeleted,
       },
+      relations: ['sampleInfo', 'sampleStock'],
       order: query,
     });
   }
@@ -80,7 +112,7 @@ export class SampleService {
     );
 
     if (!result) throw new NotFoundException();
-    if (result.image !== undefined) unlink('./uploads/' + result.image);
+    if (result.image !== undefined) await unlink('./uploads/' + result.image);
     return result;
   }
 
