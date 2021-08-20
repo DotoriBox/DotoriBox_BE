@@ -15,6 +15,8 @@ export class Customer {
   id: number;
   @Column({ default: true })
   isMale: boolean;
+  @Column()
+  age: number;
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
