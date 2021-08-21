@@ -51,6 +51,14 @@ export class TaxiController {
     return this.stockService.getStockAll(taxiId, query);
   }
 
+  @Get(':taxiId/sample/:sampleId')
+  async getStockByStockId(@Param() params, @Body() stockDto: StockDto) {
+    const { taxiId, sampleId } = params;
+    stockDto = { ...stockDto, taxiId, sampleId };
+
+    return this.stockService.getStock(stockDto);
+  }
+
   @Put(':taxiId')
   async updateTaxi(@Param() params, @Body() taxiDto: TaxiDto) {
     const { taxiId } = params;
@@ -63,6 +71,14 @@ export class TaxiController {
   async recoverTaxi(@Param() params) {
     const { taxiId } = params;
     return this.taxiService.recoverDeletedTaxi(taxiId);
+  }
+
+  @Put(':taxiId/sample/:sampleId')
+  async updateSample(
+    @Param('sampleId') sampleId: number,
+    @Body() stockDto: StockDto,
+  ) {
+    return this.stockService.updateStock(sampleId, stockDto);
   }
 
   @Delete(':taxiId')
