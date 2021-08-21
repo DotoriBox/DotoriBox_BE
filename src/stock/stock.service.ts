@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { StockDto } from './stock.dto';
 import { Taxi } from '../taxi/entity/taxi.entity';
 import { Sample } from '../sample/entity/sample.entity';
+import { SampleStock } from '../sample/entity/sampleStock.entity';
 
 @Injectable()
 export class StockService {
@@ -19,13 +20,15 @@ export class StockService {
     private readonly taxiRepository: Repository<Taxi>,
     @InjectRepository(Sample)
     private readonly sampleRepository: Repository<Sample>,
+    @InjectRepository(SampleStock)
+    private readonly sampleStockRepository: Repository<SampleStock>,
   ) {}
 
   async createStock(stockDto: StockDto) {
     const duplicate = await this.stockRepository.findOne(stockDto);
-    if (!duplicate) throw new ConflictException();
+    if (duplicate) throw new ConflictException();
 
-    return this.stockRepository.create(stockDto);
+    return this.stockRepository.save(stockDto);
   }
 
   async useStock(stockDto: StockDto) {
@@ -34,6 +37,15 @@ export class StockService {
       .where(stockDto)
       .update({
         stock: () => 'stock - 1',
+        sales: () => 'sales + 1',
+      })
+      .execute();
+
+    await this.sampleStockRepository
+      .createQueryBuilder('sample_stock')
+      .where({ sampleId: stockDto.sampleId })
+      .update({
+        amount: () => 'amount - 1',
         sales: () => 'sales + 1',
       })
       .execute();
