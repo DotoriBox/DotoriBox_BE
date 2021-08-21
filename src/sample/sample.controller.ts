@@ -14,12 +14,16 @@ import {
 import { SampleService } from './sample.service';
 import { SampleDto } from './dto/sample.dto';
 import { Response } from 'express';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../lib/multerOptions';
+import { CustomerService } from '../customer/customer.service';
 
 @Controller('sample')
 export class SampleController {
-  constructor(private readonly sampleService: SampleService) {}
+  constructor(
+    private readonly sampleService: SampleService,
+    private readonly customerService: CustomerService,
+  ) {}
   @Post('/')
   async createSample(@Body() sampleDto: SampleDto) {
     return this.sampleService.createSample(sampleDto);
@@ -44,6 +48,11 @@ export class SampleController {
     return this.sampleService.findSample(sampleId);
   }
 
+  @Get(':sampleId/stat/customer')
+  async getCustomerStat(@Param('sampleId') sampleId: number) {
+    return this.customerService.mostCommonCustomer(sampleId);
+  }
+
   @Put(':sampleId')
   async updateSample(
     @Param('sampleId') sampleId: number,
@@ -52,8 +61,8 @@ export class SampleController {
     return this.sampleService.updateSample(sampleId, sampleDto);
   }
 
-  @UseInterceptors(FilesInterceptor('attachments', null, multerOptions))
   @Put(':sampleId/image')
+  @UseInterceptors(FileInterceptor('attachments', multerOptions))
   async attachImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('sampleId') sampleId: number,
