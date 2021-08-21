@@ -15,7 +15,7 @@ export class SampleStock {
   id: number;
   @Column()
   amount: number;
-  @Column()
+  @Column({ default: 0 })
   sales: number;
   @CreateDateColumn({
     type: 'timestamp',
