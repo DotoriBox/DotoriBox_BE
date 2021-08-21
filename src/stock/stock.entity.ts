@@ -15,7 +15,7 @@ export class Stock {
   id: number;
   @Column()
   stock: number;
-  @Column()
+  @Column({ default: 0 })
   sales: number;
   @Column({ default: false })
   isDeleted: boolean;
