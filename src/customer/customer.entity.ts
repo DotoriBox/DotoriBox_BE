@@ -17,6 +17,10 @@ export class Customer {
   isMale: boolean;
   @Column()
   age: number;
+  @Column({ nullable: true })
+  score: number;
+  @Column({ nullable: true })
+  review: string;
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
