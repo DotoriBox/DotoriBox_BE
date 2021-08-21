@@ -33,7 +33,12 @@ import { Driver } from './taxi/entity/driver.entity';
         SampleStock,
         Stock,
       ],
-      synchronize: true,
+      synchronize: false,
+      migrationsRun: false,
+      migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+      cli: {
+        migrationsDir: 'src/migrations',
+      },
     }),
     CustomerModule,
     StockModule,
