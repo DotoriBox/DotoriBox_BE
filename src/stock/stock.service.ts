@@ -118,7 +118,7 @@ export class StockService {
         isDeleted: false,
       },
       order: query,
-      relations: ['sample'],
+      relations: ['sample', 'sample.sampleInfo'],
     });
   }
 
