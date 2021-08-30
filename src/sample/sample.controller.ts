@@ -40,7 +40,7 @@ export class SampleController {
     @Param('sampleId') sampleId: number,
   ) {
     const result: any = await this.sampleService.getSampleImage(+sampleId);
-    res.download('./uploads/' + result.image);
+    res.download('./image/' + result.image);
   }
 
   @Get(':sampleId')

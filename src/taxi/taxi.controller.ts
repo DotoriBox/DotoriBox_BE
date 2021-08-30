@@ -52,9 +52,9 @@ export class TaxiController {
   }
 
   @Get(':taxiId/sample/:sampleId')
-  async getStockByStockId(@Param() params, @Body() stockDto: StockDto) {
+  async getStockByStockId(@Param() params) {
     const { taxiId, sampleId } = params;
-    stockDto = { ...stockDto, taxiId, sampleId };
+    const stockDto = { taxiId, sampleId };
 
     return this.stockService.getStock(stockDto);
   }
