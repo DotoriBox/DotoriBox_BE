@@ -7,10 +7,17 @@ import { Stock } from '../stock/stock.entity';
 import { SampleInfo } from './entity/sampleInfo.entity';
 import { SampleStock } from './entity/sampleStock.entity';
 import { CustomerModule } from '../customer/customer.module';
+import { SampleTarget } from './entity/sampleTarget.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Sample, Stock, SampleInfo, SampleStock]),
+    TypeOrmModule.forFeature([
+      Sample,
+      Stock,
+      SampleInfo,
+      SampleStock,
+      SampleTarget,
+    ]),
     CustomerModule,
   ],
   controllers: [SampleController],

@@ -12,17 +12,12 @@ import { SampleInfo } from './sampleInfo.entity';
 import { SampleStock } from './sampleStock.entity';
 import { Stock } from '../../stock/stock.entity';
 import { Customer } from '../../customer/customer.entity';
+import { SampleTarget } from './sampleTarget.entity';
 
 @Entity()
 export class Sample {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
-  price: number;
-  @Column()
-  explain: string;
-  @Column()
-  sampleName: string;
   @Column({ nullable: true })
   image: string;
   @Column({ default: false })
@@ -42,6 +37,8 @@ export class Sample {
   sampleInfo: SampleInfo;
   @OneToOne(() => SampleStock, (sampleStock) => sampleStock.sample)
   sampleStock: SampleStock;
+  @OneToOne(() => SampleTarget, (sampleTarget) => sampleTarget.sample)
+  sampleTarget: SampleTarget;
   @OneToMany(() => Stock, (stock) => stock.sample)
   stocks: Stock[];
   @OneToMany(() => Customer, (customer) => customer.sample)

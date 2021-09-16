@@ -19,12 +19,6 @@ export class SampleInfo {
   sampleType: string;
   @Column()
   manufacture: string;
-  @Column()
-  salesFrom: string;
-  @Column()
-  customerConsulting: string;
-  @Column()
-  sampleQuestion: string;
   @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({

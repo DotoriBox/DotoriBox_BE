@@ -11,6 +11,7 @@ import { unlink } from 'fs/promises';
 import { Stock } from '../stock/stock.entity';
 import { SampleInfo } from './entity/sampleInfo.entity';
 import { SampleStock } from './entity/sampleStock.entity';
+import { SampleTarget } from './entity/sampleTarget.entity';
 
 @Injectable()
 export class SampleService {
@@ -23,6 +24,8 @@ export class SampleService {
     private readonly sampleInfoRepository: Repository<SampleInfo>,
     @InjectRepository(SampleStock)
     private readonly sampleStockRepository: Repository<SampleStock>,
+    @InjectRepository(SampleTarget)
+    private readonly sampleTargetRepository: Repository<SampleTarget>,
   ) {}
 
   async updateSample(sampleId: number, sampleDto: SampleDto) {
@@ -74,6 +77,7 @@ export class SampleService {
   async createSample(sampleDto: SampleDto) {
     await this.sampleInfoRepository.save(sampleDto.sampleInfo);
     await this.sampleStockRepository.save(sampleDto.sampleStock);
+    await this.sampleTargetRepository.save(sampleDto.sampleTarget);
 
     return this.sampleRepository.save(sampleDto);
   }
