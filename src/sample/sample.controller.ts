@@ -17,6 +17,7 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../lib/multerOptions';
 import { CustomerService } from '../customer/customer.service';
+import { SampleTargetDto } from './dto/sampleTarget.dto';
 
 @Controller('sample')
 export class SampleController {
@@ -29,9 +30,14 @@ export class SampleController {
     return this.sampleService.createSample(sampleDto);
   }
 
+  // @Get('/')
+  // async getAllSample(@Query() query) {
+  //   return this.sampleService.getSampleAll(query);
+  // }
+
   @Get('/')
-  async getAllSample(@Query() query) {
-    return this.sampleService.getSampleAll(query);
+  async getRecommendSample(@Body() sampleTargetDto: SampleTargetDto) {
+    return this.sampleService.recommendSample(sampleTargetDto);
   }
 
   @Get(':sampleId/image')

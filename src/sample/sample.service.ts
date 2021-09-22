@@ -12,6 +12,7 @@ import { Stock } from '../stock/stock.entity';
 import { SampleInfo } from './entity/sampleInfo.entity';
 import { SampleStock } from './entity/sampleStock.entity';
 import { SampleTarget } from './entity/sampleTarget.entity';
+import { SampleTargetDto } from './dto/sampleTarget.dto';
 
 @Injectable()
 export class SampleService {
@@ -49,6 +50,17 @@ export class SampleService {
       );
 
       delete sampleDto.sampleStock;
+    }
+
+    if (sampleDto.sampleTarget) {
+      await this.sampleTargetRepository.update(
+        {
+          sampleId,
+        },
+        sampleDto.sampleTarget,
+      );
+
+      delete sampleDto.sampleTarget;
     }
 
     const result = await this.sampleRepository.update(
@@ -166,5 +178,24 @@ export class SampleService {
         },
       );
     }
+  }
+
+  async recommendSample(sampleTargetDto: SampleTargetDto) {
+    const { isMale, age, startTime, endTime } = sampleTargetDto;
+
+    return this.sampleRepository
+      .createQueryBuilder('sample')
+      .innerJoinAndSelect('sample.sampleInfo', 'sample_info')
+      .innerJoinAndSelect('sample.sampleStock', 'sample_stock')
+      .innerJoinAndSelect('sample.sampleTarget', 'sample_target')
+      .addOrderBy(
+        `sample_target.isMale=${isMale} and sample_target.age=${age}`,
+        'DESC',
+      )
+      .addOrderBy(
+        `sample_target.startTime >= ${startTime} and sample_target.endTime < ${endTime}`,
+        'DESC',
+      )
+      .getMany();
   }
 }
