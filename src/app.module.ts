@@ -13,6 +13,7 @@ import { SampleInfo } from './sample/entity/sampleInfo.entity';
 import { SampleStock } from './sample/entity/sampleStock.entity';
 import { Stock } from './stock/stock.entity';
 import { Driver } from './taxi/entity/driver.entity';
+import { SampleTarget } from './sample/entity/sampleTarget.entity';
 
 @Module({
   imports: [
@@ -31,9 +32,10 @@ import { Driver } from './taxi/entity/driver.entity';
         Sample,
         SampleInfo,
         SampleStock,
+        SampleTarget,
         Stock,
       ],
-      synchronize: false,
+      synchronize: true,
       migrationsRun: false,
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       cli: {

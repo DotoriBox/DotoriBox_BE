@@ -16,10 +16,12 @@ export class SampleTarget {
   @Column()
   isMale: boolean;
   @Column()
-  startTime: string;
+  startTime: number;
   @Column()
-  endTime: string;
+  endTime: number;
   @OneToOne(() => Sample, (sample) => sample.sampleTarget)
   @JoinColumn()
   sample: Sample;
+  @Column({ nullable: true })
+  sampleId: number;
 }

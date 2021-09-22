@@ -4,8 +4,8 @@ export class SampleTargetDto {
   id?: number;
   age?: number;
   isMale?: boolean;
-  startTime?: string;
-  endTime?: string;
+  startTime?: number;
+  endTime?: number;
   sampleId?: number;
   sampleDto?: SampleDto;
 }
