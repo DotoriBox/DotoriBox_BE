@@ -7,8 +7,7 @@ export class CustomerDto {
   taxi?: TaxiDto;
   age?: number;
   taxiId?: number;
-  score?: number;
-  review?: string;
   sample?: SampleDto;
   sampleId?: number;
+  phone?: string;
 }
