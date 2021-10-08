@@ -192,11 +192,11 @@ export class SampleService {
       .innerJoinAndSelect('sample.sampleStock', 'sample_stock')
       .innerJoinAndSelect('sample.sampleTarget', 'sample_target')
       .addOrderBy(
-        `sample_target.isMale=${isMale} and sample_target.age=${age}`,
+        `sample_target.isMale=${isMale} or sample_target.age=${age}`,
         'DESC',
       )
       .addOrderBy(
-        `sample_target.startTime >= ${startTime} and sample_target.endTime < ${endTime}`,
+        `sample_target.startTime>=${startTime} or sample_target.endTime<${endTime}`,
         'DESC',
       )
       .getMany();

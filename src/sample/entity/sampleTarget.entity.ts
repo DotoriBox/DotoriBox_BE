@@ -11,9 +11,9 @@ import { Sample } from './sample.entity';
 export class SampleTarget {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ nullable: true })
   age: number;
-  @Column()
+  @Column({ nullable: true })
   isMale: boolean;
   @Column()
   startTime: number;
