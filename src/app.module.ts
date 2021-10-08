@@ -20,7 +20,7 @@ import { SampleTarget } from './sample/entity/sampleTarget.entity';
     TaxiModule,
     TypeOrmModule.forRoot({
       type: 'mariadb',
-      host: 'localhost',
+      host: process.env.HOST,
       port: 3306,
       username: process.env.USERNAME,
       password: process.env.PASSWORD,
