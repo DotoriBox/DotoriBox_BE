@@ -28,6 +28,14 @@ export class StockService {
     const duplicate = await this.stockRepository.findOne(stockDto);
     if (duplicate) throw new ConflictException();
 
+    await this.sampleStockRepository
+      .createQueryBuilder('sample_stock')
+      .where({ sampleId: stockDto.sampleId })
+      .update({
+        amount: () => `amount - ${stockDto.stock}`,
+      })
+      .execute();
+
     return this.stockRepository.save(stockDto);
   }
 
@@ -123,6 +131,9 @@ export class StockService {
   }
 
   async getStock(stockDto: StockDto) {
-    return this.stockRepository.findOne(stockDto);
+    return this.stockRepository.findOne({
+      where: stockDto,
+      relations: ['sample', 'sample.sampleInfo'],
+    });
   }
 }

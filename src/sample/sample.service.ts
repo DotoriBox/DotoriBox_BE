@@ -78,8 +78,11 @@ export class SampleService {
 
   async findSample(sampleId: number) {
     const result = await this.sampleRepository.findOne({
-      id: sampleId,
-      isDeleted: false,
+      where: {
+        id: sampleId,
+        isDeleted: false,
+      },
+      relations: ['sampleInfo', 'sampleStock', 'sampleTarget'],
     });
 
     if (!result) throw new NotFoundException();
@@ -101,7 +104,7 @@ export class SampleService {
       where: {
         isDeleted,
       },
-      relations: ['sampleInfo', 'sampleStock'],
+      relations: ['sampleInfo', 'sampleStock', 'sampleTarget'],
       order: query,
     });
   }

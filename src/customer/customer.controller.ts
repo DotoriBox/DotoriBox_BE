@@ -15,10 +15,7 @@ export class CustomerController {
   async createCustomer(
     @Body('customerDto') customerDto: CustomerDto,
     @Body('stockDto') stockDto: StockDto,
-    @Body() body: any,
   ) {
-    console.log(body);
-
     await this.stockService.useStock(stockDto);
     return this.customerService.createCustomer(customerDto);
   }

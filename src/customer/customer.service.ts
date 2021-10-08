@@ -42,6 +42,7 @@ export class CustomerService {
       .addSelect('COUNT(*) as count')
       .where({ sampleId })
       .groupBy('isMale, age')
+      .orderBy('count', 'DESC')
       .getRawMany();
   }
 }
