@@ -217,19 +217,28 @@ export class SampleService {
       .orderBy(
         `
               case
+                when sample_target.age=${age} and sample_target.isMale=${isMale} and 
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 1
                 when sample_target.age=${age} and sample_target.isMale=${isMale} or 
-                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 1
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 2   
+                when sample_target.age=${age} and sample_target.isMale!=${isMale} and 
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 3
                 when sample_target.age=${age} and sample_target.isMale!=${isMale} or 
-                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and 
-                  sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 2
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 4  
+                when sample_target.age!=${age} and sample_target.isMale=${isMale} and
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 5
                 when sample_target.age!=${age} and sample_target.isMale=${isMale} or
-                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and
-                  sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 3
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 6  
                 when sample_target.age!=${age} and sample_target.isMale!=${isMale} or
-                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and 
-                  sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 4
-                else 5
+                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 7
+                else 8
               end  
         `,
       )
