@@ -14,12 +14,15 @@ import { Request } from 'express';
 import { TaxiDto } from './dto/taxi.dto';
 import { StockService } from '../stock/stock.service';
 import { StockDto } from '../stock/stock.dto';
+import { SampleService } from '../sample/sample.service';
+import { SampleTargetDto } from '../sample/dto/sampleTarget.dto';
 
 @Controller('taxi')
 export class TaxiController {
   constructor(
     private readonly taxiService: TaxiService,
     private readonly stockService: StockService,
+    private readonly sampleService: SampleService,
   ) {}
   @Post()
   async create(@Body() taxiDto: TaxiDto) {
@@ -49,6 +52,12 @@ export class TaxiController {
     const { taxiId } = params;
 
     return this.stockService.getStockAll(taxiId, query);
+  }
+
+  @Get(':taxiId/sample')
+  async getSample(@Param() params, @Body() sampleTargetDto: SampleTargetDto) {
+    const { taxiId } = params;
+    return this.sampleService.recommendSample(taxiId, sampleTargetDto);
   }
 
   @Get(':taxiId/sample/:sampleId')

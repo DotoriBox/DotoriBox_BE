@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   OneToOne,
   OneToMany,
-  JoinColumn,
 } from 'typeorm';
 import { SampleInfo } from './sampleInfo.entity';
 import { SampleStock } from './sampleStock.entity';

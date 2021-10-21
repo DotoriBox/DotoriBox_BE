@@ -14,6 +14,7 @@ import { SampleStock } from './sample/entity/sampleStock.entity';
 import { Stock } from './stock/stock.entity';
 import { Driver } from './taxi/entity/driver.entity';
 import { SampleTarget } from './sample/entity/sampleTarget.entity';
+import { SampleTargetTime } from './sample/entity/sampleTargetTime.entity';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { SampleTarget } from './sample/entity/sampleTarget.entity';
         SampleInfo,
         SampleStock,
         SampleTarget,
+        SampleTargetTime,
         Stock,
       ],
       synchronize: true,

@@ -13,6 +13,9 @@ import { SampleInfo } from './entity/sampleInfo.entity';
 import { SampleStock } from './entity/sampleStock.entity';
 import { SampleTarget } from './entity/sampleTarget.entity';
 import { SampleTargetDto } from './dto/sampleTarget.dto';
+import { SampleTargetTime } from './entity/sampleTargetTime.entity';
+import { SampleTargetTimeDto } from './dto/sampleTargetTime.dto';
+import { calculateDate } from '../lib/util';
 
 @Injectable()
 export class SampleService {
@@ -27,6 +30,8 @@ export class SampleService {
     private readonly sampleStockRepository: Repository<SampleStock>,
     @InjectRepository(SampleTarget)
     private readonly sampleTargetRepository: Repository<SampleTarget>,
+    @InjectRepository(SampleTargetTime)
+    private readonly sampleTargetTimeRepository: Repository<SampleTargetTime>,
   ) {}
 
   async updateSample(sampleId: number, sampleDto: SampleDto) {
@@ -183,21 +188,75 @@ export class SampleService {
     }
   }
 
-  async recommendSample(sampleTargetDto: SampleTargetDto) {
-    const { isMale, age, startTime, endTime } = sampleTargetDto;
+  async createSampleTargetTime(sampleTargetTime: SampleTargetTimeDto) {
+    const duplicate = await this.sampleTargetTimeRepository.findOne({
+      startAt: sampleTargetTime.startAt,
+      endAt: sampleTargetTime.endAt,
+      isDeleted: false,
+    });
 
-    return this.sampleRepository
-      .createQueryBuilder('sample')
+    if (duplicate) throw Error('Duplicated Time');
+
+    return this.sampleTargetTimeRepository.save(sampleTargetTime);
+  }
+
+  async recommendSample(taxiId: number, sampleTargetDto: SampleTargetDto) {
+    const { isMale, age } = sampleTargetDto;
+
+    return this.stockRepository
+      .createQueryBuilder('stock')
+      .where(`taxiId=${taxiId}`)
+      .innerJoinAndSelect('stock.sample', 'sample')
       .innerJoinAndSelect('sample.sampleInfo', 'sample_info')
       .innerJoinAndSelect('sample.sampleStock', 'sample_stock')
       .innerJoinAndSelect('sample.sampleTarget', 'sample_target')
+      .innerJoinAndSelect(
+        'sample_target.sampleTargetTime',
+        'sample_target_time',
+      )
       .orderBy(
-        `case 
-        when age=${age} and (isMale is null or isMale=${isMale}) then 1 
-        when age is null and (isMale is null or isMale=${isMale}) then 2 
-        else 3 
-        end`,
+        `
+              case
+                when sample_target.age=${age} and sample_target.isMale=${isMale} or 
+                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and 
+                   sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 1
+                when sample_target.age=${age} and sample_target.isMale!=${isMale} or 
+                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and 
+                  sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 2
+                when sample_target.age!=${age} and sample_target.isMale=${isMale} or
+                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and
+                  sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 3
+                when sample_target.age!=${age} and sample_target.isMale!=${isMale} or
+                  (sample_target_time.startAt > date_format(NOW(), '%Y-%m-%d %h:%i') and 
+                  sample_target_time.endAt < date_format(NOW(), '%Y-%m-%d %h:%i')) then 4
+                else 5
+              end  
+        `,
       )
       .getMany();
+  }
+
+  async getAllSampleTime() {
+    return this.sampleTargetTimeRepository.find({ isDeleted: true });
+  }
+
+  async updateSampleTime(
+    sampleTargetTimeId: number,
+    sampleTargetTime: SampleTargetTimeDto,
+  ) {
+    return this.sampleTargetTimeRepository.update(
+      { id: sampleTargetTimeId },
+      sampleTargetTime,
+    );
+  }
+
+  async deleteSampleTime(sampleTargetTimeId: number) {
+    const duplicate = await this.sampleTargetTimeRepository.findOne({
+      id: sampleTargetTimeId,
+      isDeleted: false,
+    });
+    if (duplicate) throw new Error('Duplicated Time');
+
+    return this.sampleTargetTimeRepository.delete({ id: sampleTargetTimeId });
   }
 }
