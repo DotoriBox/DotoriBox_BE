@@ -12,12 +12,16 @@ import { SampleTargetTime } from '../sample/entity/sampleTargetTime.entity';
 import { SampleTarget } from '../sample/entity/sampleTarget.entity';
 import { SampleStock } from '../sample/entity/sampleStock.entity';
 import { Stock } from '../stock/stock.entity';
+import { DriverLicense } from './entity/driver.license.entity';
+import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Taxi,
       Driver,
+      DriverLicense,
+      DriverTaxiLicense,
       Sample,
       Stock,
       SampleInfo,

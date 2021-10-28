@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 import { Sample } from './entity/sample.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SampleDto } from './dto/sample.dto';
@@ -15,7 +15,6 @@ import { SampleTarget } from './entity/sampleTarget.entity';
 import { SampleTargetDto } from './dto/sampleTarget.dto';
 import { SampleTargetTime } from './entity/sampleTargetTime.entity';
 import { SampleTargetTimeDto } from './dto/sampleTargetTime.dto';
-import { calculateDate } from '../lib/util';
 
 @Injectable()
 export class SampleService {
@@ -35,50 +34,47 @@ export class SampleService {
   ) {}
 
   async updateSample(sampleId: number, sampleDto: SampleDto) {
-    if (sampleDto.sampleInfo) {
-      await this.sampleInfoRepository.update(
-        {
-          sampleId,
-        },
-        sampleDto.sampleInfo,
+    await getManager().transaction(async (transactionEntityManager) => {
+      if (sampleDto.sampleInfo) {
+        await transactionEntityManager.update(
+          SampleInfo,
+          { sampleId },
+          sampleDto.sampleInfo,
+        );
+
+        delete sampleDto.sampleInfo;
+      }
+
+      if (sampleDto.sampleStock) {
+        await transactionEntityManager.update(
+          SampleStock,
+          { sampleId },
+          sampleDto.sampleStock,
+        );
+
+        delete sampleDto.sampleStock;
+      }
+
+      if (sampleDto.sampleTarget) {
+        await transactionEntityManager.update(
+          SampleTarget,
+          { sampleId },
+          sampleDto.sampleTarget,
+        );
+
+        delete sampleDto.sampleTarget;
+      }
+
+      const result = await transactionEntityManager.update(
+        Sample,
+        { id: sampleId },
+        sampleDto,
       );
 
-      delete sampleDto.sampleInfo;
-    }
+      if (!result) throw new NotFoundException();
 
-    if (sampleDto.sampleStock) {
-      await this.sampleStockRepository.update(
-        {
-          sampleId,
-        },
-        sampleDto.sampleStock,
-      );
-
-      delete sampleDto.sampleStock;
-    }
-
-    if (sampleDto.sampleTarget) {
-      await this.sampleTargetRepository.update(
-        {
-          sampleId,
-        },
-        sampleDto.sampleTarget,
-      );
-
-      delete sampleDto.sampleTarget;
-    }
-
-    const result = await this.sampleRepository.update(
-      {
-        id: sampleId,
-        isDeleted: false,
-      },
-      sampleDto,
-    );
-
-    if (!result) throw new NotFoundException();
-
-    return result;
+      return result;
+    });
   }
 
   async findSample(sampleId: number) {
@@ -95,11 +91,14 @@ export class SampleService {
   }
 
   async createSample(sampleDto: SampleDto) {
-    await this.sampleInfoRepository.save(sampleDto.sampleInfo);
-    await this.sampleStockRepository.save(sampleDto.sampleStock);
-    await this.sampleTargetRepository.save(sampleDto.sampleTarget);
+    await getManager().transaction(async (transactionEntityManager) => {
+      await transactionEntityManager.save(SampleInfo, sampleDto.sampleInfo);
+      await transactionEntityManager.save(SampleStock, sampleDto.sampleStock);
+      await transactionEntityManager.save(SampleTarget, sampleDto.sampleTarget);
+      await transactionEntityManager.save(Sample, sampleDto);
+    });
 
-    return this.sampleRepository.save(sampleDto);
+    return sampleDto;
   }
 
   async getSampleAll(query: Record<string, unknown>) {

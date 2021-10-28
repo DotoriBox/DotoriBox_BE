@@ -15,6 +15,8 @@ import { Stock } from './stock/stock.entity';
 import { Driver } from './taxi/entity/driver.entity';
 import { SampleTarget } from './sample/entity/sampleTarget.entity';
 import { SampleTargetTime } from './sample/entity/sampleTargetTime.entity';
+import { DriverLicense } from './taxi/entity/driver.license.entity';
+import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { SampleTargetTime } from './sample/entity/sampleTargetTime.entity';
       entities: [
         Taxi,
         Driver,
+        DriverLicense,
+        DriverTaxiLicense,
         Customer,
         Sample,
         SampleInfo,

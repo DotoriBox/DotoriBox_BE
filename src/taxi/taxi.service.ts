@@ -5,9 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Taxi } from './entity/taxi.entity';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 import { Driver } from './entity/driver.entity';
 import { TaxiDto } from './dto/taxi.dto';
+import { DriverLicense } from './entity/driver.license.entity';
+import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
 
 @Injectable()
 export class TaxiService {
@@ -16,6 +18,10 @@ export class TaxiService {
     private readonly taxiRepository: Repository<Taxi>,
     @InjectRepository(Driver)
     private readonly driverRepository: Repository<Driver>,
+    @InjectRepository(DriverLicense)
+    private readonly driverLicense: Repository<DriverLicense>,
+    @InjectRepository(DriverTaxiLicense)
+    private readonly driverTaxiLicense: Repository<DriverTaxiLicense>,
   ) {}
   async updateByTaxiId(taxiDto: TaxiDto, taxiId: number) {
     const result = await this.taxiRepository.update(
@@ -52,8 +58,36 @@ export class TaxiService {
 
     if (duplicate) throw new ConflictException();
 
-    await this.driverRepository.save(taxiDto.driver);
-    return this.taxiRepository.save(taxiDto);
+    console.log(taxiDto);
+
+    await getManager().transaction(async (transactionEntityManager) => {
+      const taxi = await transactionEntityManager.save(
+        Taxi,
+        this.taxiRepository.create(taxiDto),
+      );
+
+      const driver = await transactionEntityManager.save(
+        Driver,
+        this.driverRepository.create({ ...taxiDto.driver, taxiId: taxi.id }),
+      );
+
+      await transactionEntityManager.save(
+        DriverLicense,
+        this.driverLicense.create({
+          ...taxiDto.driver.driverLicense,
+          driverId: driver.id,
+        }),
+      );
+      await transactionEntityManager.save(
+        DriverTaxiLicense,
+        this.driverTaxiLicense.create({
+          ...taxiDto.driver.driverTaxiLicense,
+          driverId: driver.id,
+        }),
+      );
+    });
+
+    return taxiDto;
   }
 
   async checkTaxi(taxiDto: TaxiDto) {

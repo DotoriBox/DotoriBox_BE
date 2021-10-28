@@ -34,6 +34,7 @@ export class StockService {
       .update({
         amount: () => `amount - ${stockDto.stock}`,
       })
+      .useTransaction(true)
       .execute();
 
     return this.stockRepository.save(stockDto);
@@ -43,6 +44,7 @@ export class StockService {
     const result = await this.stockRepository
       .createQueryBuilder()
       .where(stockDto)
+      .useTransaction(true)
       .update({
         stock: () => 'stock - 1',
         sales: () => 'sales + 1',

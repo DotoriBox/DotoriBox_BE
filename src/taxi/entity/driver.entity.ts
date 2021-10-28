@@ -3,12 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Taxi } from './taxi.entity';
+import { DriverLicense } from './driver.license.entity';
+import { DriverTaxiLicense } from './driver.taxiLicense.entity';
 
 @Entity()
 export class Driver {
@@ -19,11 +20,15 @@ export class Driver {
   @Column()
   phoneNumber: string;
   @Column()
-  licensePlate: string;
-  @Column()
   accountNumber: string;
   @Column()
   group: string;
+  @Column()
+  platform: number;
+  @Column()
+  drivingTime: number;
+  @Column()
+  residence: string;
   @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({
@@ -42,4 +47,11 @@ export class Driver {
   taxi: Taxi;
   @Column({ nullable: true })
   taxiId: number;
+  @OneToOne(() => DriverLicense, (driverLicense) => driverLicense.driver)
+  driverLicense: DriverLicense;
+  @OneToOne(
+    () => DriverTaxiLicense,
+    (driverTaxiLicense) => driverTaxiLicense.driver,
+  )
+  driverTaxiLicense: DriverTaxiLicense;
 }
