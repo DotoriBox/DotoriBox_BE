@@ -17,7 +17,6 @@ import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../lib/multerOptions';
 import { CustomerService } from '../customer/customer.service';
-import { SampleTargetDto } from './dto/sampleTarget.dto';
 import { SampleTargetTimeDto } from './dto/sampleTargetTime.dto';
 
 @Controller('sample')

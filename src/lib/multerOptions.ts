@@ -1,8 +1,16 @@
 import { HttpException } from '@nestjs/common';
-import { diskStorage } from 'multer';
-import { existsSync, mkdirSync } from 'fs';
 import { v4 as uuid } from 'uuid';
 import { extname } from 'path';
+import * as multerS3 from 'multer-s3';
+import * as AWS from 'aws-sdk';
+
+const s3 = new AWS.S3();
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
 
 export const multerOptions = {
   fileFilter: (
@@ -29,19 +37,12 @@ export const multerOptions = {
       );
     }
   },
-  storage: diskStorage({
-    destination: (request, file, callback) => {
-      const uploadPath = 'image';
-
-      if (!existsSync(uploadPath)) {
-        mkdirSync(uploadPath);
-      }
-
-      callback(null, uploadPath);
-    },
-    filename: (request, file, callback) => {
-      const uuidPath = `${uuid()}${extname(file.originalname)}`;
-      callback(null, uuidPath);
+  storage: multerS3({
+    s3,
+    bucket: process.env.AWS_S3_BUCKET_NAME,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, `images/${uuid()}${extname(file.originalname)}`);
     },
   }),
 };

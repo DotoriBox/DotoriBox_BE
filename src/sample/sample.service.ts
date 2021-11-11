@@ -124,18 +124,24 @@ export class SampleService {
   }
 
   async createSampleImage(sampleId: number, file) {
+    console.log(file);
+
     const result: any = await this.sampleRepository.update(
       {
         id: sampleId,
         isDeleted: false,
       },
       {
-        image: file.filename,
+        image: file.location,
       },
     );
 
     if (!result) throw new NotFoundException();
-    if (result.image !== undefined) await unlink('./uploads/' + result.image);
+    if (result.image !== undefined)
+      await unlink(
+        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/' +
+          result.image,
+      );
     return result;
   }
 

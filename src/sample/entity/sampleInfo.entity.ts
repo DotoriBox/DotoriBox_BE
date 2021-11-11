@@ -21,6 +21,10 @@ export class SampleInfo {
   manufacture: string;
   @Column({ default: false })
   isDeleted: boolean;
+  @Column()
+  nutrient: string;
+  @Column()
+  method: string;
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
