@@ -16,6 +16,7 @@ import { StockService } from '../stock/stock.service';
 import { StockDto } from '../stock/stock.dto';
 import { SampleService } from '../sample/sample.service';
 import { SampleTargetDto } from '../sample/dto/sampleTarget.dto';
+import { TaxiBody } from './type/taxi.type';
 
 @Controller('taxi')
 export class TaxiController {
@@ -25,8 +26,14 @@ export class TaxiController {
     private readonly sampleService: SampleService,
   ) {}
   @Post()
-  async create(@Body() taxiDto: TaxiDto) {
-    return this.taxiService.createTaxi(taxiDto);
+  async create(@Body() body: TaxiBody) {
+    const { taxiNumber, driver, driverLicense, driverTaxiLicense } = body;
+    return this.taxiService.createTaxi(
+      { taxiNumber },
+      driver,
+      driverLicense,
+      driverTaxiLicense,
+    );
   }
 
   @Post(':taxiId/sample')

@@ -5,7 +5,7 @@ import { Stock } from '../../stock/stock.entity';
 export class TaxiDto {
   id?: number;
   taxiNumber: number;
-  isDeleted: boolean;
+  isDeleted?: boolean;
   driver?: DriverDto;
   customers?: Customer[];
   stocks?: Stock[];

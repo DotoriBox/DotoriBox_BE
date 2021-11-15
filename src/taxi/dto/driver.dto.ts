@@ -1,6 +1,3 @@
-import { DriverLicenseDto } from './driver.license.dto';
-import { DriverTaxiLicenseDto } from './driver.taxiLicense.dto';
-
 export class DriverDto {
   id?: number;
   driverName?: string;
@@ -8,11 +5,9 @@ export class DriverDto {
   accountNumber?: string;
   group?: string;
   platform: number;
-  drivingStartTime: Date;
-  drivingEndTime: Date;
+  drivingStart: Date;
+  drivingEnd: Date;
   residence: string;
   isDeleted?: boolean;
   taxiId?: number;
-  driverLicense: DriverLicenseDto;
-  driverTaxiLicense: DriverTaxiLicenseDto;
 }

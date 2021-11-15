@@ -10,6 +10,9 @@ import { Driver } from './entity/driver.entity';
 import { TaxiDto } from './dto/taxi.dto';
 import { DriverLicense } from './entity/driver.license.entity';
 import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
+import { DriverLicenseDto } from './dto/driver.license.dto';
+import { DriverTaxiLicenseDto } from './dto/driver.taxiLicense.dto';
+import { DriverDto } from './dto/driver.dto';
 
 @Injectable()
 export class TaxiService {
@@ -51,7 +54,12 @@ export class TaxiService {
     return result;
   }
 
-  async createTaxi(taxiDto: TaxiDto) {
+  async createTaxi(
+    taxiDto: TaxiDto,
+    driverDto: DriverDto,
+    driverLicense: DriverLicenseDto,
+    driverTaxiLicense: DriverTaxiLicenseDto,
+  ) {
     const duplicate = await this.taxiRepository.findOne({
       taxiNumber: taxiDto.taxiNumber,
     });
@@ -68,20 +76,20 @@ export class TaxiService {
 
       const driver = await transactionEntityManager.save(
         Driver,
-        this.driverRepository.create({ ...taxiDto.driver, taxiId: taxi.id }),
+        this.driverRepository.create({ ...driverDto, taxiId: taxi.id }),
       );
 
       await transactionEntityManager.save(
         DriverLicense,
         this.driverLicense.create({
-          ...taxiDto.driver.driverLicense,
+          ...driverLicense,
           driverId: driver.id,
         }),
       );
       await transactionEntityManager.save(
         DriverTaxiLicense,
         this.driverTaxiLicense.create({
-          ...taxiDto.driver.driverTaxiLicense,
+          ...driverTaxiLicense,
           driverId: driver.id,
         }),
       );
