@@ -55,7 +55,7 @@ export class TaxiController {
   }
 
   @Get(':taxiId/sample')
-  async getSample(@Param() params, @Body() sampleTargetDto: SampleTargetDto) {
+  async getSample(@Param() params, @Query() sampleTargetDto: SampleTargetDto) {
     const { taxiId } = params;
     return this.sampleService.recommendSample(taxiId, sampleTargetDto);
   }
