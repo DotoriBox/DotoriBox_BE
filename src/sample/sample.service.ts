@@ -221,31 +221,17 @@ export class SampleService {
       )
       .orderBy(
         `
-              case
-                when sample_target.age=${age} and sample_target.isMale=${isMale} and 
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 1
-                when sample_target.age=${age} and sample_target.isMale=${isMale} or 
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 2   
-                when sample_target.age=${age} and sample_target.isMale!=${isMale} and 
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 3
-                when sample_target.age=${age} and sample_target.isMale!=${isMale} or 
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 4  
-                when sample_target.age!=${age} and sample_target.isMale=${isMale} and
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 5
-                when sample_target.age!=${age} and sample_target.isMale=${isMale} or
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 6  
-                when sample_target.age!=${age} and sample_target.isMale!=${isMale} or
-                  (sample_target_time.startAt < str_to_date(NOW(), '%Y-%m-%d %h:%i') and 
-                   sample_target_time.endAt > str_to_date(NOW(), '%Y-%m-%d %h:%i')) then 7
-                else 8
-              end  
+              CASE
+                WHEN (sample_target.age=${age} AND sample_target.isMale=${isMale}) THEN 1
+                WHEN (sample_target.age=${age} AND sample_target.isMale IS NULL) THEN 2  
+                WHEN (sample_target.age IS NULL AND sample_target.isMale=${isMale}) THEN 3
+                WHEN (sample_target.age IS NULL AND sample_target.isMale IS NULL) THEN 4
+                WHEN (sample_target.age=${age} AND sample_target.isMale!=${isMale}) THEN 5        
+                WHEN (sample_target.age!=${age} AND sample_target.isMale=${isMale}) THEN 6 
+                ELSE 7
+              END  
         `,
+        'ASC',
       )
       .getMany();
   }

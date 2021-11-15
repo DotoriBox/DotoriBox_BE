@@ -8,7 +8,8 @@ export class DriverDto {
   accountNumber?: string;
   group?: string;
   platform: number;
-  drivingTime: number;
+  drivingStartTime: Date;
+  drivingEndTime: Date;
   residence: string;
   isDeleted?: boolean;
   taxiId?: number;
