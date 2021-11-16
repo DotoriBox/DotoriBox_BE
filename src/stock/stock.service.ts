@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Stock } from './stock.entity';
-import { Repository } from 'typeorm';
+import { getManager, Repository } from 'typeorm';
 import { StockDto } from './stock.dto';
 import { Taxi } from '../taxi/entity/taxi.entity';
 import { Sample } from '../sample/entity/sample.entity';
@@ -41,28 +41,39 @@ export class StockService {
   }
 
   async useStock(stockDto: StockDto) {
-    const result = await this.stockRepository
-      .createQueryBuilder()
-      .where(stockDto)
-      .useTransaction(true)
-      .update({
-        stock: () => 'stock - 1',
-        sales: () => 'sales + 1',
+    await getManager()
+      .transaction(async (transactionalEntityManager) => {
+        await transactionalEntityManager
+          .createQueryBuilder()
+          .update(Stock)
+          .set({
+            stock: () => 'stock - 1',
+            sales: () => 'sales + 1',
+          })
+          .where({
+            sampleId: () => stockDto.sampleId,
+            taxiId: () => stockDto.taxiId,
+          })
+          .execute();
+
+        await transactionalEntityManager
+          .createQueryBuilder()
+          .update(SampleStock)
+          .set({
+            amount: () => 'amount - 1',
+            sales: () => 'sales + 1',
+          })
+          .where({
+            sampleId: () => stockDto.sampleId,
+          })
+          .execute();
       })
-      .execute();
-
-    await this.sampleStockRepository
-      .createQueryBuilder('sample_stock')
-      .where({ sampleId: stockDto.sampleId })
-      .update({
-        amount: () => 'amount - 1',
-        sales: () => 'sales + 1',
+      .then((res) => {
+        return res;
       })
-      .execute();
-
-    if (!result) throw new NotFoundException();
-
-    return result;
+      .catch((reason) => {
+        throw reason;
+      });
   }
 
   async updateStock(stockId: number, stockDto: StockDto) {

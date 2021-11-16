@@ -13,9 +13,9 @@ export class CustomerController {
 
   @Post('')
   async createCustomer(@Body() body) {
-    const { stock, customer } = body;
-    await this.stockService.useStock(stock);
-    return this.customerService.createCustomer(customer);
+    const { stockDto, customerDto } = body;
+    await this.stockService.useStock(stockDto);
+    return this.customerService.createCustomer(customerDto);
   }
 
   @Post(':customerId/evaluate')
