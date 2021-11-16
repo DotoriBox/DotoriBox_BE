@@ -50,9 +50,11 @@ export class StockService {
             stock: () => 'stock - 1',
             sales: () => 'sales + 1',
           })
-          .where({
-            sampleId: () => stockDto.sampleId,
-            taxiId: () => stockDto.taxiId,
+          .where('sampleId=:sampleId', {
+            sampleId: stockDto.sampleId,
+          })
+          .andWhere('taxiId=:taxiId', {
+            taxiId: stockDto.taxiId,
           })
           .execute();
 
@@ -63,8 +65,8 @@ export class StockService {
             amount: () => 'amount - 1',
             sales: () => 'sales + 1',
           })
-          .where({
-            sampleId: () => stockDto.sampleId,
+          .where('sampleId=:sampleId', {
+            sampleId: stockDto.sampleId,
           })
           .execute();
       })
