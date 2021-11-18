@@ -36,7 +36,7 @@ export class Sample {
   sampleInfo: SampleInfo;
   @OneToOne(() => SampleStock, (sampleStock) => sampleStock.sample)
   sampleStock: SampleStock;
-  @OneToOne(() => SampleTarget, (sampleTarget) => sampleTarget.sample)
+  @OneToMany(() => SampleTarget, (sampleTarget) => sampleTarget.sample)
   sampleTarget: SampleTarget;
   @OneToMany(() => Stock, (stock) => stock.sample)
   stocks: Stock[];

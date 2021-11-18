@@ -1,11 +1,8 @@
 import {
-  AfterLoad,
   Column,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Sample } from './sample.entity';
@@ -27,7 +24,7 @@ export class SampleTarget {
     (sampleTargetTime) => sampleTargetTime.sampleTarget,
   )
   sampleTargetTime: SampleTargetTime;
-  @OneToOne(() => Sample, (sample) => sample.sampleTarget)
+  @ManyToOne(() => Sample, (sample) => sample.sampleTarget)
   @JoinColumn()
   sample: Sample;
   @Column({ nullable: true })
