@@ -83,7 +83,7 @@ export class SampleService {
         id: sampleId,
         isDeleted: false,
       },
-      relations: ['sampleInfo', 'sampleStock', 'sampleTarget'],
+      relations: ['sampleInfo', 'sampleStock', 'sampleTargets'],
     });
 
     if (!result) throw new NotFoundException();
@@ -227,7 +227,7 @@ export class SampleService {
       .innerJoinAndSelect('stock.sample', 'sample')
       .innerJoinAndSelect('sample.sampleInfo', 'sample_info')
       .innerJoinAndSelect('sample.sampleStock', 'sample_stock')
-      .innerJoinAndSelect('sample.sampleTarget', 'sample_target')
+      .innerJoinAndSelect('sample.sampleTargets', 'sample_target')
       .innerJoinAndSelect(
         'sample_target.sampleTargetTime',
         'sample_target_time',
