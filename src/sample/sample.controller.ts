@@ -18,6 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../lib/multerOptions';
 import { CustomerService } from '../customer/customer.service';
 import { SampleTargetTimeDto } from './dto/sampleTargetTime.dto';
+import { SampleTargetDto } from './dto/sampleTarget.dto';
 
 @Controller('sample')
 export class SampleController {
@@ -30,10 +31,18 @@ export class SampleController {
     return this.sampleService.createSample(sampleDto);
   }
 
-  // @Get('/')
-  // async getAllSample(@Query() query) {
-  //   return this.sampleService.getSampleAll(query);
-  // }
+  @Post(':sampleId/target')
+  async addTarget(
+    @Body() sampleTarget: SampleTargetDto,
+    @Param('sampleId') sampleId: number,
+  ) {
+    return this.sampleService.createSampleTarget({ ...sampleTarget, sampleId });
+  }
+
+  @Get('/')
+  async getAllSample(@Query() query) {
+    return this.sampleService.getSampleAll(query);
+  }
 
   // @Get('/')
   // async getRecommendSample(@Body() sampleTargetDto: SampleTargetDto) {
@@ -113,5 +122,16 @@ export class SampleTimeController {
   @Delete('/:sampleTimeId')
   async deleteSampleTime(@Param('sampleTimeId') sampleTimeId: number) {
     return this.sampleService.deleteSampleTime(sampleTimeId);
+  }
+
+  @Delete('/:sampleId/target')
+  async deleteSampleTarget(
+    @Body() sampleTargetDto: SampleTargetDto,
+    @Param('sampleId') sampleId: number,
+  ) {
+    return this.sampleService.deleteSampleTarget({
+      ...sampleTargetDto,
+      sampleId,
+    });
   }
 }

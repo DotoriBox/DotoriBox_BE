@@ -55,15 +55,15 @@ export class SampleService {
         delete sampleDto.sampleStock;
       }
 
-      if (sampleDto.sampleTarget) {
-        await transactionEntityManager.update(
-          SampleTarget,
-          { sampleId },
-          sampleDto.sampleTarget,
-        );
-
-        delete sampleDto.sampleTarget;
-      }
+      // if (sampleDto.sampleTargets) {
+      //   await transactionEntityManager.update(
+      //     SampleTarget,
+      //     { sampleId },
+      //     sampleDto.sampleTarget,
+      //   );
+      //
+      //   delete sampleDto.sampleTargets;
+      // }
 
       const result = await transactionEntityManager.update(
         Sample,
@@ -94,11 +94,24 @@ export class SampleService {
     await getManager().transaction(async (transactionEntityManager) => {
       await transactionEntityManager.save(SampleInfo, sampleDto.sampleInfo);
       await transactionEntityManager.save(SampleStock, sampleDto.sampleStock);
-      await transactionEntityManager.save(SampleTarget, sampleDto.sampleTarget);
       await transactionEntityManager.save(Sample, sampleDto);
     });
 
     return sampleDto;
+  }
+
+  async createSampleTarget(sampleTargetDto: SampleTargetDto) {
+    const target = await this.sampleTargetRepository.findOne(sampleTargetDto);
+
+    if (!target) {
+      return await this.sampleTargetRepository.save(sampleTargetDto);
+    }
+
+    return target;
+  }
+
+  async deleteSampleTarget(sampleTargetDto: SampleTargetDto) {
+    return this.sampleTargetRepository.delete(sampleTargetDto);
   }
 
   async getSampleAll(query: Record<string, unknown>) {
@@ -108,7 +121,7 @@ export class SampleService {
       where: {
         isDeleted,
       },
-      relations: ['sampleInfo', 'sampleStock', 'sampleTarget'],
+      relations: ['sampleInfo', 'sampleStock', 'sampleTargets'],
       order: query,
     });
   }

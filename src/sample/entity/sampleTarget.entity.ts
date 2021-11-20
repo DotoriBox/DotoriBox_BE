@@ -24,7 +24,7 @@ export class SampleTarget {
     (sampleTargetTime) => sampleTargetTime.sampleTarget,
   )
   sampleTargetTime: SampleTargetTime;
-  @ManyToOne(() => Sample, (sample) => sample.sampleTarget)
+  @ManyToOne(() => Sample, (sample) => sample.sampleTargets)
   @JoinColumn()
   sample: Sample;
   @Column({ nullable: true })

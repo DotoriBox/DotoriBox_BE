@@ -12,5 +12,5 @@ export class SampleDto {
   customers?: CustomerDto[];
   sampleInfo?: SampleInfoDto;
   sampleStock?: SampleStockDto;
-  sampleTarget?: SampleTargetDto;
+  sampleTargets?: SampleTargetDto[];
 }
