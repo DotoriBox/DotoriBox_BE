@@ -228,6 +228,7 @@ export class SampleService {
       .innerJoinAndSelect('sample.sampleInfo', 'sample_info')
       .innerJoinAndSelect('sample.sampleStock', 'sample_stock')
       .innerJoinAndSelect('sample.sampleTargets', 'sample_target')
+      .orderBy('sample_target')
       .innerJoinAndSelect(
         'sample_target.sampleTargetTime',
         'sample_target_time',
