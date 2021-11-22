@@ -26,9 +26,7 @@ export class Driver {
   @Column()
   platform: number;
   @Column()
-  drivingStart: Date;
-  @Column()
-  drivingEnd: Date;
+  drivingTime: number;
   @Column()
   residence: string;
   @Column({ default: false })

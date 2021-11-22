@@ -5,8 +5,7 @@ export class DriverDto {
   accountNumber?: string;
   group?: string;
   platform: number;
-  drivingStart: Date;
-  drivingEnd: Date;
+  drivingTime: number;
   residence: string;
   isDeleted?: boolean;
   taxiId?: number;
