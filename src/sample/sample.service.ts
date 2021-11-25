@@ -236,13 +236,43 @@ export class SampleService {
       .orderBy(
         `
               CASE
-                WHEN (sample_target.age=${age} AND sample_target.isMale=${isMale}) THEN 1
-                WHEN (sample_target.age=${age} AND sample_target.isMale IS NULL) THEN 2  
-                WHEN (sample_target.age IS NULL AND sample_target.isMale=${isMale}) THEN 3
-                WHEN (sample_target.age IS NULL AND sample_target.isMale IS NULL) THEN 4
-                WHEN (sample_target.age=${age} AND sample_target.isMale!=${isMale}) THEN 5        
-                WHEN (sample_target.age!=${age} AND sample_target.isMale=${isMale}) THEN 6 
-                ELSE 7
+                WHEN (sample_target.age=${age} AND sample_target.isMale=${isMale}) AND
+                 (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+                   sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 1
+                WHEN (sample_target.age=${age} AND sample_target.isMale=${isMale}) AND
+                 (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR 
+                   sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 2
+                WHEN (sample_target.age=${age} AND sample_target.isMale IS NULL) AND
+                 (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+                   sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 3
+                WHEN (sample_target.age=${age} AND sample_target.isMale IS NULL) AND
+                 (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR  
+                   sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 4
+                WHEN (sample_target.age IS NULL AND sample_target.isMale=${isMale}) AND
+                 (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+                   sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 5
+                WHEN (sample_target.age IS NULL AND sample_target.isMale=${isMale}) AND
+                 (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR  
+                   sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 6
+                WHEN (sample_target.age IS NULL AND sample_target.isMale IS NULL) AND
+                 (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+                   sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 7
+                WHEN (sample_target.age IS NULL AND sample_target.isMale IS NULL) AND
+                 (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR 
+                   sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 8
+                WHEN (sample_target.age=${age} AND sample_target.isMale!=${isMale}) AND
+                 (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+                   sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 9
+                WHEN (sample_target.age=${age} AND sample_target.isMale!=${isMale}) AND
+                 (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR  
+                   sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 10
+                WHEN (sample_target.age!=${age} AND sample_target.isMale!=${isMale}) AND
+                 (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+                   sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 11
+                WHEN (sample_target.age!=${age} AND sample_target.isMale!=${isMale}) AND
+                 (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR  
+                   sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 12      
+                ELSE 13
               END  
         `,
         'ASC',

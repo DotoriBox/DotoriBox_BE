@@ -17,3 +17,15 @@ export function calculateDate(startAt: Date, endAt: Date) {
   }
   return { startAt, endAt };
 }
+
+export function calculatePriority(
+  age: number,
+  isMale: boolean,
+  equal: boolean,
+) {
+  return `
+    WHEN (sample_target.age=${age} AND sample_target.isMale=${isMale}) AND
+      (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
+      sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 1
+  `;
+}
