@@ -15,6 +15,8 @@ export class SampleInfo {
   id: number;
   @Column()
   name: string;
+  @Column('simple-json')
+  explain: { title: string; data: string };
   @Column()
   sampleType: string;
   @Column()

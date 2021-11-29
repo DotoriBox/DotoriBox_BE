@@ -8,6 +8,7 @@ export class SampleDto {
   id?: number;
   isDeleted?: boolean;
   image?: string;
+  cardImage?: string;
   stocks?: StockDto[];
   customers?: CustomerDto[];
   sampleInfo?: SampleInfoDto;

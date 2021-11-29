@@ -19,6 +19,8 @@ export class Sample {
   id: number;
   @Column({ nullable: true })
   image: string;
+  @Column({ nullable: true })
+  cardImage: string;
   @Column({ default: false })
   isDeleted: boolean;
   @CreateDateColumn({
