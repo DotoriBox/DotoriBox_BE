@@ -7,7 +7,6 @@ import {
 } from 'typeorm';
 import { Sample } from './sample.entity';
 import { SampleTargetTime } from './sampleTargetTime.entity';
-import { calculateDate } from '../../lib/util';
 
 @Entity()
 export class SampleTarget {

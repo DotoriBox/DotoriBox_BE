@@ -85,6 +85,15 @@ export class SampleController {
     return this.sampleService.createSampleImage(sampleId, file);
   }
 
+  @Put(':sampleId/card-image')
+  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  async attachCardImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('sampleId') sampleId: number,
+  ) {
+    return this.sampleService.createSampleCardImage(sampleId, file);
+  }
+
   @Put(':sampleId/recover')
   async recoverSample(@Param('sampleId') sampleId: number) {
     return this.sampleService.recoverSample(sampleId);

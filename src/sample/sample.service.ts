@@ -152,8 +152,30 @@ export class SampleService {
     if (!result) throw new NotFoundException();
     if (result.image !== undefined)
       await unlink(
-        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/' +
+        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/card/' +
           result.image,
+      );
+    return result;
+  }
+
+  async createSampleCardImage(sampleId: number, file) {
+    console.log(file);
+
+    const result: any = await this.sampleRepository.update(
+      {
+        id: sampleId,
+        isDeleted: false,
+      },
+      {
+        cardImage: file.location,
+      },
+    );
+
+    if (!result) throw new NotFoundException();
+    if (result.cardImage !== undefined)
+      await unlink(
+        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/miniCard/' +
+          result.cardImage,
       );
     return result;
   }
@@ -181,7 +203,8 @@ export class SampleService {
     if (!isExist) throw new NotFoundException();
     if (permanent) {
       if (isExist.isDeleted === false) throw new ConflictException();
-      await unlink('./uploads/' + isExist.image);
+      await unlink('./uploads/card/' + isExist.image);
+      await unlink('./uploads/miniCard/' + isExist.image);
       await this.sampleRepository.delete({
         id: sampleId,
       });
