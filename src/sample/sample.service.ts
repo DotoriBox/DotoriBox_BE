@@ -242,7 +242,7 @@ export class SampleService {
   }
 
   async recommendSample(taxiId: number, sampleTargetDto: SampleTargetDto) {
-    const { isMale, age } = sampleTargetDto;
+    const { age, isMale } = sampleTargetDto;
 
     return this.stockRepository
       .createQueryBuilder('stock')
@@ -251,14 +251,13 @@ export class SampleService {
       .innerJoinAndSelect('sample.sampleInfo', 'sample_info')
       .innerJoinAndSelect('sample.sampleStock', 'sample_stock')
       .innerJoinAndSelect('sample.sampleTargets', 'sample_target')
-      .orderBy('sample_target')
       .innerJoinAndSelect(
         'sample_target.sampleTargetTime',
         'sample_target_time',
       )
       .orderBy(
         `
-              CASE
+        CASE
                 WHEN (sample_target.age=${age} AND sample_target.isMale=${isMale}) AND
                  (sample_target_time.startAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') AND 
                    sample_target_time.endAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 1
@@ -296,8 +295,8 @@ export class SampleService {
                  (sample_target_time.startAt > STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i') OR  
                    sample_target_time.endAt < STR_TO_DATE(NOW(), '%Y-%m-%d %h:%i')) THEN 12      
                 ELSE 13
-              END  
-        `,
+              END
+      `,
         'ASC',
       )
       .getMany();
