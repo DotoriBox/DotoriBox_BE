@@ -23,10 +23,10 @@ export class SampleTargetTime {
   sampleTarget: SampleTarget[];
   @Column({ default: false })
   isDeleted: boolean;
-  @AfterLoad()
-  updateTime() {
-    const result = calculateDate(this.startAt, this.endAt);
-    this.startAt = result.startAt;
-    this.endAt = result.endAt;
-  }
+  // @AfterLoad()
+  // updateTime() {
+  //   const result = calculateDate(this.startAt, this.endAt);
+  //   this.startAt = result.startAt;
+  //   this.endAt = result.endAt;
+  // }
 }

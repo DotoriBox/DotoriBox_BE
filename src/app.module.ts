@@ -43,6 +43,7 @@ import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
       ],
       synchronize: true,
       migrationsRun: false,
+      timezone: 'Z',
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       cli: {
         migrationsDir: 'src/migrations',
