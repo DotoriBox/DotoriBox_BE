@@ -255,6 +255,7 @@ export class SampleService {
         'sample_target.sampleTargetTime',
         'sample_target_time',
       )
+      .where(`sample.isDeleted=${false}`)
       .orderBy(
         `
         CASE
