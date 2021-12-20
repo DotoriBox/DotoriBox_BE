@@ -70,7 +70,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           NEST_PORT: ${{ secrets.NEST_PORT }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          HOST_: ${{ HOST_ }}
+          HOST_: ${{ secrets.HOST_ }}
 
       - name: Copy to NCP
         uses: appleboy/scp-action@master
