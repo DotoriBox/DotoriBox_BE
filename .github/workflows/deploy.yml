@@ -87,4 +87,4 @@ jobs:
           script: |
             cd server
             source .env
-            npm run start & > log.txt
+            npm run start > log.txt &
