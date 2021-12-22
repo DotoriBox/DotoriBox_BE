@@ -38,3 +38,5 @@ lerna-debug.log*
 
 ./dist.zip
 ./package-lock.json
+
+.env

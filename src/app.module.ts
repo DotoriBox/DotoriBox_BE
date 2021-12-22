@@ -22,7 +22,7 @@ import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
   imports: [
     TaxiModule,
     TypeOrmModule.forRoot({
-      type: 'mariadb',
+      type: 'mysql',
       host: process.env.HOST,
       port: 3306,
       username: process.env.USERNAME,
