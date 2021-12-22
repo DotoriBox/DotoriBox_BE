@@ -93,4 +93,4 @@ jobs:
           script: |
             cd server
             source .env
-            npm run start
+            npm run start &
