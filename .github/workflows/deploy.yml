@@ -1,7 +1,7 @@
 name: Deploy to EB
 on:
   push:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   buildAndTest:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['14.x']
+        node-version: [ '14.x' ]
 
     steps:
       - uses: actions/checkout@v2
@@ -36,23 +36,6 @@ jobs:
     needs: buildAndTest
     steps:
       - uses: actions/checkout@v2
-      - name: Create env file
-        run: |
-          touch .env 
-          echo "export PORT=8081" >> .env
-          echo "export NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-          cat .env
-      - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run build
-        run: npm run build
-
       - name: Make .env file
         run: |
           echo "export AWS_REGION=$AWS_REGION" >> .env
@@ -72,6 +55,17 @@ jobs:
           NEST_PORT: ${{ secrets.NEST_PORT }}
           PASSWORD: ${{ secrets.PASSWORD }}
           USERNAME: ${{ secrets.USERNAME }}
+
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
 
       - name: Copy to NCP
         uses: appleboy/scp-action@master
