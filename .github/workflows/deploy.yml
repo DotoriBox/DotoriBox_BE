@@ -1,7 +1,7 @@
 name: Deploy to EB
 on:
   push:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   buildAndTest:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['14.x']
+        node-version: [ '14.x' ]
 
     steps:
       - uses: actions/checkout@v2
@@ -36,12 +36,26 @@ jobs:
     needs: buildAndTest
     steps:
       - uses: actions/checkout@v2
-      - name: Create env file
+      - name: Make .env file
         run: |
-          touch .env 
-          echo "export PORT=8081" >> .env
-          echo "export NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-          cat .env
+          echo "AWS_REGION=$AWS_REGION" >> .env
+          echo "AWS_S3_BUCKET_NAME=$AWS_S3_BUCKET_NAME" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> .env
+          echo "DATABASE=$DATABASE" >> .env
+          echo "HOST=$HOST" >> .env
+          echo "NEST_PORT=$NEST_PORT" >> .env
+          echo "PASSWORD=$PASSWORD" >> .env
+          echo "USERNAME=$USERNAME" >> .env
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DATABASE: ${{ secrets.DATABASE }}
+          HOST: ${{ secrets.HOST }}
+          NEST_PORT: ${{ secrets.NEST_PORT }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          USERNAME: ${{ secrets.USERNAME }}
+
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -52,26 +66,6 @@ jobs:
 
       - name: Run build
         run: npm run build
-
-      - name: Make .env file
-        run: |
-          echo "export AWS_REGION=$AWS_REGION" >> .env
-          echo "export AWS_S3_BUCKET_NAME=$AWS_S3_BUCKET_NAME" >> .env
-          echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> .env
-          echo "export DATABASE=$DATABASE" >> .env
-          echo "export HOST=$HOST" >> .env
-          echo "export NEST_PORT=$NEST_PORT" >> .env
-          echo "export PASSWORD=$PASSWORD" >> .env
-          echo "export USERNAME=$USERNAME" >> .env
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          DATABASE: ${{ secrets.DATABASE }}
-          HOST: ${{ secrets.HOST }}
-          NEST_PORT: ${{ secrets.NEST_PORT }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          USERNAME: ${{ secrets.USERNAME }}
 
       - name: Copy to NCP
         uses: appleboy/scp-action@master
@@ -93,4 +87,4 @@ jobs:
           script: |
             cd server
             source .env
-            npm run start
+            npm run start & > log.txt
