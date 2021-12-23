@@ -77,7 +77,12 @@ export class SampleController {
   }
 
   @Put(':sampleId/image')
-  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  @UseInterceptors(
+    FileInterceptor(
+      'attachments',
+      multerOptions(process.env.AWS_S3_BUCKET_NAME),
+    ),
+  )
   async attachImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('sampleId') sampleId: number,
@@ -86,7 +91,12 @@ export class SampleController {
   }
 
   @Put(':sampleId/card-image')
-  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  @UseInterceptors(
+    FileInterceptor(
+      'attachments',
+      multerOptions(process.env.AWS_S3_BUCKET_NAME),
+    ),
+  )
   async attachCardImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('sampleId') sampleId: number,
