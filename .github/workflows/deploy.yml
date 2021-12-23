@@ -87,4 +87,4 @@ jobs:
           script: |
             cd server
             touch log.txt
-            npm run start > log.txt &
+            npm run start > log.txt & npx wait-on http://localhost:5000
