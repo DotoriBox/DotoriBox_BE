@@ -19,11 +19,14 @@ import { SampleTargetTime } from './sample/entity/sampleTargetTime.entity';
 import { DriverLicense } from './taxi/entity/driver.license.entity';
 import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
 
+import { multerOptions } from './lib/multerOptions';
+
 @Module({
   imports: [
     TaxiModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
