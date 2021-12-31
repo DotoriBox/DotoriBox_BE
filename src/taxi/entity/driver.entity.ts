@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +11,7 @@ import {
 import { Taxi } from './taxi.entity';
 import { DriverLicense } from './driver.license.entity';
 import { DriverTaxiLicense } from './driver.taxiLicense.entity';
+import { TaxiPlatform } from './taxi.platform.entity';
 
 @Entity()
 export class Driver {
@@ -23,8 +25,11 @@ export class Driver {
   accountNumber: string;
   @Column()
   group: string;
-  @Column()
-  platform: number;
+  @Column({ nullable: true })
+  platformId: number;
+  @ManyToOne(() => TaxiPlatform, (taxiPlatform) => taxiPlatform.taxis)
+  @JoinColumn()
+  platform: TaxiPlatform;
   @Column()
   drivingTime: number;
   @Column()
