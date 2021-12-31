@@ -91,4 +91,4 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd server
             touch log.txt
-            npm run start > log.txt & npx wait-on http://localhost:80
+            npm run start > log.txt & npx wait-on http://localhost:${{ secrets.NEST_PORT }}
