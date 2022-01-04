@@ -24,9 +24,9 @@ export class TaxiService {
     @InjectRepository(Driver)
     private readonly driverRepository: Repository<Driver>,
     @InjectRepository(DriverLicense)
-    private readonly driverLicense: Repository<DriverLicense>,
+    private readonly driverLicenseRepository: Repository<DriverLicense>,
     @InjectRepository(DriverTaxiLicense)
-    private readonly driverTaxiLicense: Repository<DriverTaxiLicense>,
+    private readonly driverTaxiLicenseRepository: Repository<DriverTaxiLicense>,
     @InjectRepository(TaxiPlatform)
     private readonly taxiPlatformRepository: Repository<TaxiPlatform>,
   ) {}
@@ -55,6 +55,34 @@ export class TaxiService {
     if (!result) throw new NotFoundException();
 
     return result;
+  }
+
+  async updateTaxiLicensePic(taxiId: number, file) {
+    const driver = await this.driverRepository.findOne({ taxiId });
+    if (!Driver) throw new NotFoundException();
+
+    return this.driverTaxiLicenseRepository.update(
+      {
+        driverId: driver.id,
+      },
+      {
+        TaxiLicensePic: file.location,
+      },
+    );
+  }
+
+  async updateDriverLicensePic(taxiId: number, file) {
+    const driver = await this.driverRepository.findOne({ taxiId });
+    if (!Driver) throw new NotFoundException();
+
+    return this.driverLicenseRepository.update(
+      {
+        driverId: driver.id,
+      },
+      {
+        DriverLicensePic: file.location,
+      },
+    );
   }
 
   async recoverDeletedTaxi(taxiId: number) {
@@ -100,14 +128,14 @@ export class TaxiService {
 
       await transactionEntityManager.save(
         DriverLicense,
-        this.driverLicense.create({
+        this.driverLicenseRepository.create({
           ...driverLicense,
           driverId: driver.id,
         }),
       );
       await transactionEntityManager.save(
         DriverTaxiLicense,
-        this.driverTaxiLicense.create({
+        this.driverTaxiLicenseRepository.create({
           ...driverTaxiLicense,
           driverId: driver.id,
         }),

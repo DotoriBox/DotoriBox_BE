@@ -8,6 +8,8 @@ import {
   Put,
   Query,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { TaxiService } from './taxi.service';
 import { Request } from 'express';
@@ -17,6 +19,9 @@ import { StockDto } from '../stock/stock.dto';
 import { SampleService } from '../sample/sample.service';
 import { SampleTargetDto } from '../sample/dto/sampleTarget.dto';
 import { TaxiBody } from './type/taxi.type';
+import { FileInterceptor } from '@nestjs/platform-express';
+
+import { multerOptions } from '../lib/multerOptions';
 
 @Controller('taxi')
 export class TaxiController {
@@ -94,6 +99,24 @@ export class TaxiController {
   async recoverTaxi(@Param() params) {
     const { taxiId } = params;
     return this.taxiService.recoverDeletedTaxi(taxiId);
+  }
+
+  @Put(':taxiId/taxi-license')
+  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  async updateTaxiLicensePic(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('taxiId') taxiId: number,
+  ) {
+    return this.taxiService.updateTaxiLicensePic(taxiId, file);
+  }
+
+  @Put(':taxiId/driver-license')
+  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  async updateDriverLicensePic(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('taxiId') taxiId: number,
+  ) {
+    return this.taxiService.updateDriverLicensePic(taxiId, file);
   }
 
   @Put(':taxiId/sample/:sampleId')
