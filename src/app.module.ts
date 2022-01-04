@@ -20,6 +20,7 @@ import { DriverLicense } from './taxi/entity/driver.license.entity';
 import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
 
 import { multerOptions } from './lib/multerOptions';
+import { TaxiPlatform } from './taxi/entity/taxi.platform.entity';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { multerOptions } from './lib/multerOptions';
       database: process.env.DATABASE,
       entities: [
         Taxi,
+        TaxiPlatform,
         Driver,
         DriverLicense,
         DriverTaxiLicense,

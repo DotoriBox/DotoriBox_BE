@@ -14,11 +14,14 @@ import { SampleStock } from '../sample/entity/sampleStock.entity';
 import { Stock } from '../stock/stock.entity';
 import { DriverLicense } from './entity/driver.license.entity';
 import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
+import { TaxiPlatform } from './entity/taxi.platform.entity';
+import { TaxiPlatformController } from './taxi.platform.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Taxi,
+      TaxiPlatform,
       Driver,
       DriverLicense,
       DriverTaxiLicense,
@@ -31,7 +34,7 @@ import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
     ]),
     StockModule,
   ],
-  controllers: [TaxiController],
+  controllers: [TaxiController, TaxiPlatformController],
   providers: [TaxiService, SampleService],
 })
 export class TaxiModule {}

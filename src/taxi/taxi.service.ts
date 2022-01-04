@@ -13,6 +13,8 @@ import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
 import { DriverLicenseDto } from './dto/driver.license.dto';
 import { DriverTaxiLicenseDto } from './dto/driver.taxiLicense.dto';
 import { DriverDto } from './dto/driver.dto';
+import { TaxiPlatformDto } from './dto/taxi.platform.dto';
+import { TaxiPlatform } from './entity/taxi.platform.entity';
 
 @Injectable()
 export class TaxiService {
@@ -25,7 +27,10 @@ export class TaxiService {
     private readonly driverLicense: Repository<DriverLicense>,
     @InjectRepository(DriverTaxiLicense)
     private readonly driverTaxiLicense: Repository<DriverTaxiLicense>,
+    @InjectRepository(TaxiPlatform)
+    private readonly taxiPlatformRepository: Repository<TaxiPlatform>,
   ) {}
+
   async updateByTaxiId(taxiDto: TaxiDto, taxiId: number) {
     const result = await this.taxiRepository.update(
       {
@@ -36,6 +41,19 @@ export class TaxiService {
     );
 
     if (!result) throw new NotFoundException();
+    return result;
+  }
+
+  async updateTaxiPlatform(
+    taxiPlatform: TaxiPlatformDto,
+    taxiPlatformId: number,
+  ) {
+    const result = await this.taxiPlatformRepository.update(
+      { id: taxiPlatformId },
+      taxiPlatform,
+    );
+    if (!result) throw new NotFoundException();
+
     return result;
   }
 
@@ -56,6 +74,7 @@ export class TaxiService {
 
   async createTaxi(
     taxiDto: TaxiDto,
+    taxiPlatformDto: TaxiPlatformDto,
     driverDto: DriverDto,
     driverLicense: DriverLicenseDto,
     driverTaxiLicense: DriverTaxiLicenseDto,
@@ -63,8 +82,10 @@ export class TaxiService {
     const duplicate = await this.taxiRepository.findOne({
       taxiNumber: taxiDto.taxiNumber,
     });
-
     if (duplicate) throw new ConflictException();
+
+    const check = await this.taxiPlatformRepository.findOne(taxiPlatformDto);
+    if (!check) throw new NotFoundException();
 
     await getManager().transaction(async (transactionEntityManager) => {
       const taxi = await transactionEntityManager.save(
@@ -94,6 +115,14 @@ export class TaxiService {
     });
 
     return taxiDto;
+  }
+
+  async createTaxiPlatform(taxiPlatformDto: TaxiPlatformDto) {
+    const check = await this.taxiPlatformRepository.findOne(taxiPlatformDto);
+
+    if (check) throw new ConflictException();
+
+    return this.taxiPlatformRepository.save(taxiPlatformDto);
   }
 
   async checkTaxi(taxiDto: TaxiDto) {

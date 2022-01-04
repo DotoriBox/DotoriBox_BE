@@ -27,9 +27,16 @@ export class TaxiController {
   ) {}
   @Post()
   async create(@Body() body: TaxiBody) {
-    const { taxiNumber, driver, driverLicense, driverTaxiLicense } = body;
+    const {
+      taxiNumber,
+      driver,
+      driverLicense,
+      driverTaxiLicense,
+      taxiPlatform,
+    } = body;
     return this.taxiService.createTaxi(
       { taxiNumber },
+      taxiPlatform,
       driver,
       driverLicense,
       driverTaxiLicense,

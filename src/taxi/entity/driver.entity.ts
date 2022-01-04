@@ -25,11 +25,6 @@ export class Driver {
   accountNumber: string;
   @Column()
   group: string;
-  @Column({ nullable: true })
-  platformId: number;
-  @ManyToOne(() => TaxiPlatform, (taxiPlatform) => taxiPlatform.taxis)
-  @JoinColumn()
-  platform: TaxiPlatform;
   @Column()
   drivingTime: number;
   @Column()

@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Driver } from './driver.entity';
+import { Taxi } from './taxi.entity';
 
 @Entity()
 export class TaxiPlatform {
@@ -7,6 +7,6 @@ export class TaxiPlatform {
   id: number;
   @Column()
   name: string;
-  @OneToMany(() => Driver, (driver) => driver.platform)
-  taxis: Driver[];
+  @OneToMany(() => Taxi, (taxi) => taxi.platform)
+  taxis: Taxi[];
 }
