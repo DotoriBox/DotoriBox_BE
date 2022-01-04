@@ -1,4 +1,4 @@
-import { TaxiPlatformDto } from './driver.taxiPlatform.dto';
+import { TaxiPlatformDto } from './taxi.platform.dto';
 
 export class DriverDto {
   id?: number;

@@ -66,8 +66,6 @@ export class TaxiService {
 
     if (duplicate) throw new ConflictException();
 
-    console.log(taxiDto);
-
     await getManager().transaction(async (transactionEntityManager) => {
       const taxi = await transactionEntityManager.save(
         Taxi,
@@ -122,15 +120,13 @@ export class TaxiService {
 
   async getAllTaxi(isDeleted: boolean, query: Record<string, unknown>) {
     if (!isDeleted) isDeleted = false;
-    const result = await this.taxiRepository.find({
+    return this.taxiRepository.find({
       where: {
         isDeleted,
       },
       relations: ['driver'],
       order: query,
     });
-
-    return result;
   }
 
   async getTaxiByTaxiNumber(taxiNumber: number) {

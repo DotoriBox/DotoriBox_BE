@@ -4,4 +4,5 @@ export class DriverLicenseDto {
   regNumber?: string;
   passcode?: string;
   driverId?: number;
+  DriverLicensePic?: string;
 }
