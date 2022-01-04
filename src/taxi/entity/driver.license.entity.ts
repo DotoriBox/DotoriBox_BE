@@ -17,6 +17,8 @@ export class DriverLicense {
   regNumber: string;
   @Column()
   passcode: string;
+  @Column()
+  DriverLicensePic: string;
   @OneToOne(() => Driver, (driver) => driver.driverLicense)
   @JoinColumn()
   driver: Driver;
