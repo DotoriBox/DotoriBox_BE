@@ -57,4 +57,6 @@ export class Driver {
   driverTaxiLicense: DriverTaxiLicense;
   @OneToOne(() => DriverToken, (driverToken) => driverToken.driver)
   driverToken: DriverToken;
+  @ManyToOne(() => TaxiPlatform, (taxiPlatform) => taxiPlatform.taxis)
+  taxiPlatform: TaxiPlatform;
 }
