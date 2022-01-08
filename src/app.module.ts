@@ -21,6 +21,7 @@ import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
 
 import { multerOptions } from './lib/multerOptions';
 import { TaxiPlatform } from './taxi/entity/taxi.platform.entity';
+import { DriverToken } from './taxi/entity/driver.token.entity';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { TaxiPlatform } from './taxi/entity/taxi.platform.entity';
         SampleTarget,
         SampleTargetTime,
         Stock,
+        DriverToken,
       ],
       synchronize: true,
       migrationsRun: false,

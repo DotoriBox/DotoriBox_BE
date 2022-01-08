@@ -12,6 +12,7 @@ import { Taxi } from './taxi.entity';
 import { DriverLicense } from './driver.license.entity';
 import { DriverTaxiLicense } from './driver.taxiLicense.entity';
 import { TaxiPlatform } from './taxi.platform.entity';
+import { DriverToken } from './driver.token.entity';
 
 @Entity()
 export class Driver {
@@ -54,4 +55,6 @@ export class Driver {
     (driverTaxiLicense) => driverTaxiLicense.driver,
   )
   driverTaxiLicense: DriverTaxiLicense;
+  @OneToOne(() => DriverToken, (driverToken) => driverToken.driver)
+  driverToken: DriverToken;
 }

@@ -16,6 +16,7 @@ import { DriverLicense } from './entity/driver.license.entity';
 import { DriverTaxiLicense } from './entity/driver.taxiLicense.entity';
 import { TaxiPlatform } from './entity/taxi.platform.entity';
 import { TaxiPlatformController } from './taxi.platform.controller';
+import { DriverToken } from './entity/driver.token.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { TaxiPlatformController } from './taxi.platform.controller';
       SampleStock,
       SampleTarget,
       SampleTargetTime,
+      DriverToken,
     ]),
     StockModule,
   ],
