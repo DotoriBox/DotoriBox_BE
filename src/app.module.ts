@@ -22,6 +22,7 @@ import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
 import { multerOptions } from './lib/multerOptions';
 import { TaxiPlatform } from './taxi/entity/taxi.platform.entity';
 import { DriverToken } from './taxi/entity/driver.token.entity';
+import { DriverModule } from './driver/driver.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { DriverToken } from './taxi/entity/driver.token.entity';
     CustomerModule,
     StockModule,
     SampleModule,
+    DriverModule,
   ],
   controllers: [AppController],
   providers: [AppService],

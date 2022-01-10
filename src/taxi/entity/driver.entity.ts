@@ -25,8 +25,6 @@ export class Driver {
   @Column()
   accountNumber: string;
   @Column()
-  group: string;
-  @Column()
   drivingTime: number;
   @Column()
   residence: string;
