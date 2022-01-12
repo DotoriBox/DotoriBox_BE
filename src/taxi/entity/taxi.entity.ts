@@ -20,6 +20,8 @@ export class Taxi {
   id: number;
   @Column()
   taxiNumber: number;
+  @Column()
+  group: string;
   @Column({ default: false })
   isDeleted: boolean;
   @Column({ nullable: true })

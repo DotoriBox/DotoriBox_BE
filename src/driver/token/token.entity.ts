@@ -8,24 +8,16 @@ import {
 import { Driver } from '../driver.entity';
 
 @Entity()
-export class DriverInfo {
+export class DriverToken {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  name: string;
+  accessToken: string;
   @Column()
-  phoneNumber: string;
-  @Column()
-  accountNumber: string;
-  @Column()
-  residence: string;
-  @Column()
-  drivingTime: number;
-  @Column()
-  isDeleted: boolean;
+  refreshToken: string;
   @Column({ nullable: true })
   driverId: number;
-  @OneToOne(() => Driver, (driver) => driver.driverInfo)
+  @OneToOne(() => Driver, (driver) => driver.token)
   @JoinColumn()
   driver: Driver;
 }

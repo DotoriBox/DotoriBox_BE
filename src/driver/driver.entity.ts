@@ -9,6 +9,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DriverInfo } from './info/info.entity';
+import { DriverToken } from './token/token.entity';
+import { DrivingLicense } from "./license/driving/driving.entity";
+import { TaxiLicense } from "./license/taxi/taxi.entity";
 
 @Entity()
 export class Driver {
@@ -16,4 +19,10 @@ export class Driver {
   id: number;
   @OneToOne(() => DriverInfo, (driverInfo) => driverInfo.driver)
   driverInfo: DriverInfo;
+  @OneToOne(() => DriverToken, (driverToken) => driverToken.driver)
+  token: DriverToken;
+  @OneToOne(() => DrivingLicense, (drivingLicense) => drivingLicense.driver)
+  drivingLicense: DrivingLicense;
+  @OneToOne(() => TaxiLicense, (taxiLicense) => taxiLicense.driver)
+  taxiLicense: TaxiLicense;
 }
