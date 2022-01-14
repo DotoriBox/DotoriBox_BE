@@ -7,7 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Sample } from '../sample/entity/sample.entity';
-import { Taxi } from '../taxi/entity/taxi.entity';
+import { Taxi } from '../driver/taxi/taxi.entity';
 
 @Entity()
 export class Stock {

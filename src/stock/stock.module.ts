@@ -4,8 +4,8 @@ import { StockService } from './stock.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Stock } from './stock.entity';
 import { Sample } from '../sample/entity/sample.entity';
-import { Taxi } from '../taxi/entity/taxi.entity';
 import { SampleStock } from '../sample/entity/sampleStock.entity';
+import { Taxi } from '../driver/taxi/taxi.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Stock, Taxi, Sample, SampleStock])],

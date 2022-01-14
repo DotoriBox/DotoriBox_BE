@@ -3,8 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TaxiModule } from './taxi/taxi.module';
-import { Taxi } from './taxi/entity/taxi.entity';
 import { CustomerModule } from './customer/customer.module';
 import { StockModule } from './stock/stock.module';
 import { SampleModule } from './sample/sample.module';
@@ -13,20 +11,21 @@ import { Sample } from './sample/entity/sample.entity';
 import { SampleInfo } from './sample/entity/sampleInfo.entity';
 import { SampleStock } from './sample/entity/sampleStock.entity';
 import { Stock } from './stock/stock.entity';
-import { Driver } from './taxi/entity/driver.entity';
 import { SampleTarget } from './sample/entity/sampleTarget.entity';
 import { SampleTargetTime } from './sample/entity/sampleTargetTime.entity';
-import { DriverLicense } from './taxi/entity/driver.license.entity';
-import { DriverTaxiLicense } from './taxi/entity/driver.taxiLicense.entity';
 
-import { multerOptions } from './lib/multerOptions';
-import { TaxiPlatform } from './taxi/entity/taxi.platform.entity';
-import { DriverToken } from './taxi/entity/driver.token.entity';
 import { DriverModule } from './driver/driver.module';
+import { DrivingLicense } from './driver/license/driving/driving.entity';
+import { TaxiLicense } from './driver/license/taxi/taxi.entity';
+import { Driver } from './driver/driver.entity';
+import { DriverToken } from './driver/token/token.entity';
+import { DriverInfo } from './driver/info/info.entity';
+import { Taxi } from './driver/taxi/taxi.entity';
+import { Platform } from './driver/taxi/platform/platform.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    TaxiModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -39,11 +38,7 @@ import { DriverModule } from './driver/driver.module';
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
       entities: [
-        Taxi,
-        TaxiPlatform,
         Driver,
-        DriverLicense,
-        DriverTaxiLicense,
         Customer,
         Sample,
         SampleInfo,
@@ -52,6 +47,11 @@ import { DriverModule } from './driver/driver.module';
         SampleTargetTime,
         Stock,
         DriverToken,
+        DrivingLicense,
+        TaxiLicense,
+        DriverInfo,
+        Taxi,
+        Platform,
       ],
       synchronize: true,
       migrationsRun: false,
@@ -65,6 +65,7 @@ import { DriverModule } from './driver/driver.module';
     StockModule,
     SampleModule,
     DriverModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DriverInfo } from './info.entity';
 import { Repository } from 'typeorm';
 import { CreateUserInfoDto, UpdateUserInfoDto } from './info.dto';
+import { userInfo } from 'os';
 
 @Injectable()
 export class InfoService {
@@ -12,17 +13,29 @@ export class InfoService {
   ) {}
 
   async createDriverInfo(userInfoDto: CreateUserInfoDto) {
-    await this.driverInfoRepository.save(userInfoDto);
+    return this.driverInfoRepository.save(userInfoDto);
   }
 
   async updateDriverInfo(userInfoId: number, userInfoDto: UpdateUserInfoDto) {
-    await this.driverInfoRepository.update({ id: userInfoId }, userInfoDto);
+    return this.driverInfoRepository.update({ id: userInfoId }, userInfoDto);
   }
 
   async removeDriverInfo(userInfoId: number) {
-    await this.driverInfoRepository.update(
+    return this.driverInfoRepository.update(
       { id: userInfoId },
       { isDeleted: true },
     );
+  }
+
+  async getDriverInfoById(id: number) {
+    return this.driverInfoRepository.findOne({ id });
+  }
+
+  async getDriverInfoByDto(userInfoDto: UpdateUserInfoDto) {
+    return this.driverInfoRepository.findOne(userInfoDto);
+  }
+
+  async getDriverInfoAll() {
+    return this.driverInfoRepository.find();
   }
 }

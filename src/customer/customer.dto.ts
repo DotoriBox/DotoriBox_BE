@@ -1,5 +1,5 @@
-import { TaxiDto } from '../taxi/dto/taxi.dto';
 import { SampleDto } from '../sample/dto/sample.dto';
+import { TaxiDto } from '../driver/taxi/taxi.dto';
 
 export class CustomerDto {
   id?: number;

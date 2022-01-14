@@ -15,13 +15,13 @@ export class DriverInfo {
   name: string;
   @Column()
   phoneNumber: string;
-  @Column()
+  @Column({ nullable: true })
   accountNumber: string;
-  @Column()
+  @Column({ nullable: true })
   residence: string;
-  @Column()
+  @Column({ nullable: true })
   drivingTime: number;
-  @Column()
+  @Column({ default: false })
   isDeleted: boolean;
   @Column({ nullable: true })
   driverId: number;
