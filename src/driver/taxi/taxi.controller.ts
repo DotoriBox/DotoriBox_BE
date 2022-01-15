@@ -19,8 +19,8 @@ export class TaxiController {
     return this.taxiService.createTaxi(taxiDto);
   }
 
-  @Get(':id')
-  async getTaxi(@Param('id') id: number) {
-    return this.taxiService.getTaxi(id);
+  @Get(':number')
+  async getTaxi(@Param('number') number: number) {
+    return this.taxiService.getTaxi(number);
   }
 }

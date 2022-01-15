@@ -21,6 +21,8 @@ export class Taxi {
   customers: Customer[];
   @Column({ nullable: true })
   platformId: number;
+  @Column({ nullable: true })
+  taxiNumber: number;
   @ManyToOne(() => Platform, (taxiPlatform) => taxiPlatform.taxis)
   @JoinColumn()
   platform: Platform;

@@ -28,7 +28,10 @@ export class TaxiService {
   }
 
   async getTaxi(id: number) {
-    const Taxi = await this.taxiRepository.findOne({ id });
+    const Taxi = await this.taxiRepository.findOne(
+      { taxiNumber: id },
+      { relations: ['driver'] },
+    );
     if (!Taxi) throw new NotFoundException();
 
     return Taxi;
