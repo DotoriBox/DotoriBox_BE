@@ -6,22 +6,24 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InfoService } from '../../info/info.service';
-import { TokenService } from '../token.service';
-import { TaxiService } from '../../taxi/taxi.service';
-import { DriverService } from '../../driver.service';
+import { InfoService } from '../../driver/info/info.service';
+import { TokenService } from '../../driver/token/token.service';
+import { TaxiService } from '../../driver/taxi/taxi.service';
+import { DriverService } from '../../driver/driver.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { response } from 'express';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class NaverStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly infoService: InfoService,
-    private readonly tokenService: TokenService,
+    private readonly authService: AuthService,
     private readonly driverService: DriverService,
     private readonly httpService: HttpService,
+    private readonly tokenService: TokenService,
   ) {
     super({
       clientID: process.env.NAVER_CLIENT_ID,
@@ -36,42 +38,43 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
     profile: any,
     done: any,
   ): Promise<any> {
-    const name = profile._json.name;
+    const info = await firstValueFrom(
+      this.httpService.get('https://openapi.naver.com/v1/nid/me', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    );
 
-    let user = await this.infoService.getDriverInfoByDto({ name });
+    const { mobile, name } = info.data.response;
 
-    if (!user) {
-      const info = await firstValueFrom(
-        this.httpService.get('https://openapi.naver.com/v1/nid/me', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }),
-      );
+    let user = await this.infoService.getDriverInfoByDto({
+      phoneNumber: mobile,
+      name,
+    });
 
-      const { mobile, name } = info.data.response;
+    if (!user || !info) {
       const taxi = await this.driverService.createDriver({});
       user = await this.infoService.createDriverInfo({
         phoneNumber: mobile,
         name,
         driverId: taxi.id,
       });
-
-      console.log(user);
     }
 
-    const access_token = await this.tokenService.createDriverToken(
-      { driverId: user.driverId, phoneNumber: user.phoneNumber },
-      refreshToken,
-    );
-    const refresh_token = await this.tokenService.refreshDriverToken(
-      { driverId: user.driverId, phoneNumber: user.phoneNumber },
-      refreshToken,
+    const Tokens = await this.authService.createDriverToken({
+      driverId: user.driverId,
+      phoneNumber: user.phoneNumber,
+    });
+
+    await this.tokenService.createToken(
+      user.id,
+      Tokens.access_token,
+      Tokens.refresh_token,
     );
 
     return {
-      access_token,
-      refresh_token,
+      ...Tokens,
       type: 'login',
     };
   }

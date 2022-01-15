@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UseGuards } from '@nestjs/common';
-import { NaverAuthGuard } from './driver/token/guard/naver-auth.guard';
+import { NaverAuthGuard } from './auth/guard/naver-auth.guard';
 
 @Controller()
 export class AppController {

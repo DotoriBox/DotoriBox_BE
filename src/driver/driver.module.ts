@@ -12,7 +12,6 @@ import { Driver } from './driver.entity';
   imports: [
     LicenseModule,
     InfoModule,
-    forwardRef(() => TokenModule),
     TaxiModule,
     TypeOrmModule.forFeature([Driver]),
   ],

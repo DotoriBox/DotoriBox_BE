@@ -12,38 +12,36 @@ export class TokenService {
   constructor(
     @InjectRepository(DriverToken)
     private readonly driverTokenRepository: Repository<DriverToken>,
-    private readonly jwtService: JwtService,
   ) {}
-
-  async createDriverToken(
-    userInfoDto: UpdateUserInfoDto,
-    refreshToken: string,
-  ) {
-    const payload = {
-      id: userInfoDto.driverId,
-      phoneNumber: userInfoDto.phoneNumber,
-      refreshToken: refreshToken,
-    };
-
-    return this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '30m',
+  async createToken(id: number, accessToken: string, refreshToken: string) {
+    const check = await this.driverTokenRepository.findOne({ driverId: id });
+    if (check) return check;
+    return this.driverTokenRepository.save({
+      driverId: id,
+      accessToken,
+      refreshToken,
     });
   }
 
-  async refreshDriverToken(
-    userInfoDto: UpdateUserInfoDto,
-    refreshToken: string,
-  ) {
-    const payload = {
-      id: userInfoDto.driverId,
-      phoneNumber: userInfoDto.phoneNumber,
-      refreshToken: refreshToken,
-    };
+  async updateAccessToken(id: number, accessToken: string) {
+    return this.driverTokenRepository.update(
+      {
+        driverId: id,
+      },
+      {
+        accessToken,
+      },
+    );
+  }
 
-    return this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '14d',
-    });
+  async updateRefreshToken(id: number, refreshToken: string) {
+    return this.driverTokenRepository.update(
+      {
+        driverId: id,
+      },
+      {
+        refreshToken,
+      },
+    );
   }
 }
