@@ -34,7 +34,7 @@ export class Stock {
   sample: Sample;
   @Column({ nullable: true })
   sampleId: number;
-  @ManyToOne(() => Taxi, (taxi) => taxi.customers)
+  @ManyToOne(() => Taxi, (taxi) => taxi.stocks)
   taxi: Taxi;
   @Column({ nullable: true })
   taxiId: number;

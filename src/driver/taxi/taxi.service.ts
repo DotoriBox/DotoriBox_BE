@@ -17,7 +17,9 @@ export class TaxiService {
   ) {}
 
   async createTaxi(taxiDto: TaxiDto) {
-    return this.taxiRepository.save(taxiDto);
+    const taxi = await this.taxiRepository.create(taxiDto);
+    await this.taxiRepository.save(taxi);
+    return taxi;
   }
 
   async updateTaxi(id: number, taxiDto: TaxiDto) {

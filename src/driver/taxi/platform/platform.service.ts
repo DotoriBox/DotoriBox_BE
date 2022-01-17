@@ -28,10 +28,12 @@ export class PlatformService {
   }
 
   async createPlatform(platformDto: PlatformDto) {
-    const platform = await this.platformRepository.find({
+    const platform = await this.platformRepository.findOne({
       ...platformDto,
       isDeleted: false,
     });
+
+    console.log(platform);
 
     if (platform) throw new ConflictException();
 

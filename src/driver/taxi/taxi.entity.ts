@@ -10,6 +10,7 @@ import {
 import { Driver } from '../driver.entity';
 import { Platform } from './platform/platform.entity';
 import { Customer } from '../../customer/customer.entity';
+import { Stock } from '../../stock/stock.entity';
 
 @Entity()
 export class Taxi {
@@ -31,5 +32,7 @@ export class Taxi {
   @OneToOne(() => Driver, (driver) => driver.taxi)
   @JoinColumn()
   driver: Driver;
+  @OneToMany(() => Stock, (stock) => stock.taxi)
+  stocks: Stock[];
   //  passenger는 select alias로 해결
 }

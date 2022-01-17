@@ -24,5 +24,6 @@ import { SampleTargetTime } from './entity/sampleTargetTime.entity';
   ],
   controllers: [SampleController, SampleTimeController],
   providers: [SampleService],
+  exports: [SampleService],
 })
 export class SampleModule {}

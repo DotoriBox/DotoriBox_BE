@@ -4,7 +4,9 @@ import { extname } from 'path';
 import * as multerS3 from 'multer-s3';
 import * as AWS from 'aws-sdk';
 
-const s3 = new AWS.S3();
+const s3 = new AWS.S3({
+  endpoint: new AWS.Endpoint('https://kr.object.ncloudstorage.com'),
+});
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,

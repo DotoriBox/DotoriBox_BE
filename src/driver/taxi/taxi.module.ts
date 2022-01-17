@@ -4,11 +4,16 @@ import { TaxiController } from './taxi.controller';
 import { PlatformModule } from './platform/platform.module';
 import { Taxi } from './taxi.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TokenModule } from '../token/token.module';
-import { DriverModule } from '../driver.module';
+import { StockModule } from '../../stock/stock.module';
+import { SampleModule } from '../../sample/sample.module';
 
 @Module({
-  imports: [PlatformModule, TypeOrmModule.forFeature([Taxi])],
+  imports: [
+    SampleModule,
+    PlatformModule,
+    StockModule,
+    TypeOrmModule.forFeature([Taxi]),
+  ],
   providers: [TaxiService],
   controllers: [TaxiController],
   exports: [TaxiService],

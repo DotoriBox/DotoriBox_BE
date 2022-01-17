@@ -15,4 +15,9 @@ export class PlatformController {
   async getPlatformById(@Param('id') id: number) {
     return this.platformService.getPlatformById(id);
   }
+
+  @Get()
+  async getPlatform() {
+    return this.platformService.getAllPlatform();
+  }
 }

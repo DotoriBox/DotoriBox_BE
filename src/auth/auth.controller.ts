@@ -5,8 +5,14 @@ import { JwtAuthGuard } from './guard/local.guard';
 @Controller('auth')
 export class AuthController {
   @UseGuards(NaverAuthGuard)
-  @Get()
+  @Get('/callback')
   async authCallBack(@Req() req) {
     return req.user;
+  }
+
+  @UseGuards(NaverAuthGuard)
+  @Get()
+  async authCall() {
+    return 'Login';
   }
 }
