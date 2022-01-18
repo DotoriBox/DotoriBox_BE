@@ -6,7 +6,6 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InfoService } from '../../driver/info/info.service';
 import { TokenService } from '../../driver/token/token.service';
 import { DriverService } from '../../driver/driver.service';
 import { HttpService } from '@nestjs/axios';
@@ -16,7 +15,6 @@ import { AuthService } from '../auth.service';
 @Injectable()
 export class NaverStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly infoService: InfoService,
     private readonly authService: AuthService,
     private readonly driverService: DriverService,
     private readonly httpService: HttpService,

@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DriverToken } from '../driver/token/token.entity';
 import { DriverModule } from '../driver/driver.module';
 import { HttpModule } from '@nestjs/axios';
+import { JwtStrategy } from './strategy/local.strategy';
 
 @Module({
   imports: [
@@ -19,12 +20,11 @@ import { HttpModule } from '@nestjs/axios';
       defaultStrategy: 'jwt',
       session: false,
     }),
-    InfoModule,
     TokenModule,
     DriverModule,
     HttpModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, NaverStrategy],
+  providers: [AuthService, NaverStrategy, JwtStrategy],
 })
 export class AuthModule {}

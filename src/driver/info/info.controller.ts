@@ -9,23 +9,26 @@ import {
 } from '@nestjs/common';
 import { InfoService } from './info.service';
 import { CreateUserInfoDto, UpdateUserInfoDto } from './info.dto';
-import { NaverAuthGuard } from '../../auth/guard/naver-auth.guard';
+import { JwtAuthGuard } from '../../auth/guard/local.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('info')
 export class InfoController {
   constructor(private readonly infoService: InfoService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   async createUserInfo(@Body() infoDto: CreateUserInfoDto) {
     return this.infoService.createDriverInfo(infoDto);
   }
 
-  @UseGuards(NaverAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async getUserInfoById(@Param('id') id: number) {
     return this.infoService.getDriverInfoById(id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getUserInfo(@Body() userDto: UpdateUserInfoDto) {
     if (userDto) return this.infoService.getDriverInfoByDto(userDto);
