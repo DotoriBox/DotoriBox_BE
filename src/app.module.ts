@@ -21,7 +21,7 @@ import { Driver } from './driver/driver.entity';
 import { DriverToken } from './driver/token/token.entity';
 import { DriverInfo } from './driver/info/info.entity';
 import { Taxi } from './driver/taxi/taxi.entity';
-import { Platform } from './driver/taxi/platform/platform.entity';
+import { Platform } from './driver/info/platform/platform.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({

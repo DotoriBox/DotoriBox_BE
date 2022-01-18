@@ -2,19 +2,19 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Driver } from '../driver.entity';
+import { Platform } from './platform/platform.entity';
 
 @Entity()
 export class DriverInfo {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
-  name: string;
-  @Column()
-  phoneNumber: string;
+  isCorporation: boolean;
   @Column({ nullable: true })
   accountNumber: string;
   @Column({ nullable: true })
@@ -28,4 +28,9 @@ export class DriverInfo {
   @OneToOne(() => Driver, (driver) => driver.driverInfo)
   @JoinColumn()
   driver: Driver;
+  @Column({ nullable: true })
+  platformId: number;
+  @ManyToOne(() => Platform, (taxiPlatform) => taxiPlatform.driverInfos)
+  @JoinColumn()
+  platform: Platform;
 }

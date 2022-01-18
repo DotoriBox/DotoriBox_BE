@@ -5,7 +5,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Taxi } from '../taxi.entity';
+import { DriverInfo } from '../info.entity';
 
 @Entity()
 export class Platform {
@@ -15,7 +15,7 @@ export class Platform {
   name: string;
   @Column({ default: false })
   isDeleted: boolean;
-  @OneToMany(() => Taxi, (taxi) => taxi.platform)
+  @OneToMany(() => DriverInfo, (driverInfo) => driverInfo.platform)
   @JoinColumn()
-  taxis: Taxi[];
+  driverInfos: DriverInfo[];
 }

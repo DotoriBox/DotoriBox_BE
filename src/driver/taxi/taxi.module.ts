@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TaxiService } from './taxi.service';
 import { TaxiController } from './taxi.controller';
-import { PlatformModule } from './platform/platform.module';
+import { PlatformModule } from '../info/platform/platform.module';
 import { Taxi } from './taxi.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StockModule } from '../../stock/stock.module';

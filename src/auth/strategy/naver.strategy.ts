@@ -8,12 +8,9 @@ import {
 } from '@nestjs/common';
 import { InfoService } from '../../driver/info/info.service';
 import { TokenService } from '../../driver/token/token.service';
-import { TaxiService } from '../../driver/taxi/taxi.service';
 import { DriverService } from '../../driver/driver.service';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { response } from 'express';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -48,22 +45,20 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
 
     const { mobile, name } = info.data.response;
 
-    let user = await this.infoService.getDriverInfoByDto({
+    let user = await this.driverService.getDriver({
       phoneNumber: mobile,
       name,
     });
 
     if (!user || !info) {
-      const taxi = await this.driverService.createDriver({});
-      user = await this.infoService.createDriverInfo({
+      user = await this.driverService.createDriver({
         phoneNumber: mobile,
         name,
-        driverId: taxi.id,
       });
     }
 
     const Tokens = await this.authService.createDriverToken({
-      driverId: user.driverId,
+      id: user.id,
       phoneNumber: user.phoneNumber,
     });
 

@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   OneToMany,
@@ -17,6 +18,10 @@ import { Customer } from '../customer/customer.entity';
 export class Driver {
   @PrimaryGeneratedColumn()
   id: number;
+  @Column()
+  name: string;
+  @Column()
+  phoneNumber: string;
   @OneToOne(() => DriverInfo, (driverInfo) => driverInfo.driver)
   driverInfo: DriverInfo;
   @OneToOne(() => DriverToken, (driverToken) => driverToken.driver)

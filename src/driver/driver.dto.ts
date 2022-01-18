@@ -1,4 +1,5 @@
 export interface DriverDto {
   id?: number;
-  platformId?: number;
+  name?: string;
+  phoneNumber?: string;
 }

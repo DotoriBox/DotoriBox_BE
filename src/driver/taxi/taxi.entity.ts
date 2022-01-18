@@ -8,7 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Driver } from '../driver.entity';
-import { Platform } from './platform/platform.entity';
+import { Platform } from '../info/platform/platform.entity';
 import { Customer } from '../../customer/customer.entity';
 import { Stock } from '../../stock/stock.entity';
 
@@ -21,12 +21,7 @@ export class Taxi {
   @OneToMany(() => Customer, (customer) => customer.taxi)
   customers: Customer[];
   @Column({ nullable: true })
-  platformId: number;
-  @Column({ nullable: true })
   taxiNumber: number;
-  @ManyToOne(() => Platform, (taxiPlatform) => taxiPlatform.taxis)
-  @JoinColumn()
-  platform: Platform;
   @Column({ nullable: true })
   driverId: number;
   @OneToOne(() => Driver, (driver) => driver.taxi)
