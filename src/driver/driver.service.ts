@@ -19,6 +19,9 @@ export class DriverService {
   }
 
   async getDriver(driverDto: DriverDto) {
-    return this.driverRepository.findOne(driverDto);
+    return this.driverRepository.findOne({
+      where: driverDto,
+      relations: ['driverInfo', 'token', 'taxi'],
+    });
   }
 }

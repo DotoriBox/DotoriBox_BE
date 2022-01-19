@@ -44,4 +44,8 @@ export class TokenService {
       },
     );
   }
+
+  async getToken(id: number) {
+    return this.driverTokenRepository.findOne({ driverId: id });
+  }
 }
