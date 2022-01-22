@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Sample } from '../sample/entity/sample.entity';
+import { Sample } from '../sample/sample.entity';
 import { Taxi } from '../driver/taxi/taxi.entity';
 
 @Entity()

@@ -26,7 +26,7 @@ export class CustomerController {
     return this.customerService.evaluate(customerDto, customerId);
   }
 
-  @Get('')
+  @Get()
   async getCustomerInfo(@Body() customerDto: CustomerDto, @Query() query) {
     return this.customerService.getCustomer(customerDto, query);
   }

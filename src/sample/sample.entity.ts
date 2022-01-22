@@ -7,11 +7,11 @@ import {
   OneToOne,
   OneToMany,
 } from 'typeorm';
-import { SampleInfo } from './sampleInfo.entity';
-import { SampleStock } from './sampleStock.entity';
-import { Stock } from '../../stock/stock.entity';
-import { Customer } from '../../customer/customer.entity';
-import { SampleTarget } from './sampleTarget.entity';
+import { SampleInfo } from './info/info.entity';
+import { SampleStock } from './stock/stock.entity';
+import { Stock } from '../stock/stock.entity';
+import { Customer } from '../customer/customer.entity';
+import { SampleTarget } from './target/target.entity';
 
 @Entity()
 export class Sample {

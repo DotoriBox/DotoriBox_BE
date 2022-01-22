@@ -5,8 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Sample } from './sample.entity';
-import { SampleTargetTime } from './sampleTargetTime.entity';
+import { Sample } from '../sample.entity';
+import { SampleTargetTime } from './time/time.entity';
 
 @Entity()
 export class SampleTarget {

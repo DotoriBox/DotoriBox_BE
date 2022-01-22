@@ -6,12 +6,14 @@ import { Taxi } from './taxi.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StockModule } from '../../stock/stock.module';
 import { SampleModule } from '../../sample/sample.module';
+import { CustomerModule } from '../../customer/customer.module';
 
 @Module({
   imports: [
     SampleModule,
     PlatformModule,
     StockModule,
+    CustomerModule,
     TypeOrmModule.forFeature([Taxi]),
   ],
   providers: [TaxiService],

@@ -35,6 +35,10 @@ export class CustomerService {
     return result;
   }
 
+  async getAllCustomerByTaxiId(taxiId: number) {
+    return this.customerRepository.find({ taxiId });
+  }
+
   async mostCommonCustomer(sampleId: number) {
     return this.customerRepository
       .createQueryBuilder('customer')

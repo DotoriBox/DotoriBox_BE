@@ -12,8 +12,9 @@ import { TaxiService } from './taxi.service';
 import { TaxiDto } from './taxi.dto';
 import { StockService } from '../../stock/stock.service';
 import { StockDto } from '../../stock/stock.dto';
-import { SampleTargetDto } from '../../sample/dto/sampleTarget.dto';
+import { SampleTargetDto } from '../../sample/target/target.dto';
 import { SampleService } from '../../sample/sample.service';
+import { CustomerService } from '../../customer/customer.service';
 
 @Controller('taxi')
 export class TaxiController {
@@ -21,6 +22,7 @@ export class TaxiController {
     private readonly taxiService: TaxiService,
     private readonly stockService: StockService,
     private readonly sampleService: SampleService,
+    private readonly customerService: CustomerService,
   ) {}
 
   @Post()
@@ -39,6 +41,11 @@ export class TaxiController {
     @Query() sampleTargetDto: SampleTargetDto,
   ) {
     return this.sampleService.recommendSample(taxiId, sampleTargetDto);
+  }
+
+  @Get(':taxiId/customer')
+  async getCustomers(@Param('taxiId') taxiId: number) {
+    return this.customerService.getAllCustomerByTaxiId(taxiId);
   }
 
   @Get('taxiId/sample/:sampleId')

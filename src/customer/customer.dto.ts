@@ -1,4 +1,4 @@
-import { SampleDto } from '../sample/dto/sample.dto';
+import { SampleDto } from '../sample/sample.dto';
 import { TaxiDto } from '../driver/taxi/taxi.dto';
 
 export class CustomerDto {

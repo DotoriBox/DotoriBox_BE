@@ -1,4 +1,4 @@
-import { SampleDto } from './sample.dto';
+import { SampleDto } from '../sample.dto';
 
 export class SampleStockDto {
   id?: number;

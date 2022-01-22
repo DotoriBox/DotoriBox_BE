@@ -1,4 +1,4 @@
-import { SampleTargetDto } from './sampleTarget.dto';
+import { SampleTargetDto } from '../target.dto';
 
 export class SampleTargetTimeDto {
   id: number;

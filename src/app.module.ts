@@ -7,12 +7,12 @@ import { CustomerModule } from './customer/customer.module';
 import { StockModule } from './stock/stock.module';
 import { SampleModule } from './sample/sample.module';
 import { Customer } from './customer/customer.entity';
-import { Sample } from './sample/entity/sample.entity';
-import { SampleInfo } from './sample/entity/sampleInfo.entity';
-import { SampleStock } from './sample/entity/sampleStock.entity';
+import { Sample } from './sample/sample.entity';
+import { SampleInfo } from './sample/info/info.entity';
+import { SampleStock } from './sample/stock/stock.entity';
 import { Stock } from './stock/stock.entity';
-import { SampleTarget } from './sample/entity/sampleTarget.entity';
-import { SampleTargetTime } from './sample/entity/sampleTargetTime.entity';
+import { SampleTarget } from './sample/target/target.entity';
+import { SampleTargetTime } from './sample/target/time/time.entity';
 
 import { DriverModule } from './driver/driver.module';
 import { DrivingLicense } from './driver/license/driving/driving.entity';

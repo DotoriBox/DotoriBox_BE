@@ -5,8 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { calculateDate } from '../../lib/util';
-import { SampleTarget } from './sampleTarget.entity';
+import { SampleTarget } from '../target.entity';
 
 @Entity()
 export class SampleTargetTime {

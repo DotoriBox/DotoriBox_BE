@@ -7,7 +7,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Sample } from './sample.entity';
+import { Sample } from '../sample.entity';
 
 @Entity()
 export class SampleInfo {

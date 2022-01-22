@@ -7,8 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Stock } from './stock.entity';
 import { getManager, Repository } from 'typeorm';
 import { StockDto } from './stock.dto';
-import { Sample } from '../sample/entity/sample.entity';
-import { SampleStock } from '../sample/entity/sampleStock.entity';
+import { Sample } from '../sample/sample.entity';
+import { SampleStock } from '../sample/stock/stock.entity';
 import { Taxi } from '../driver/taxi/taxi.entity';
 
 @Injectable()

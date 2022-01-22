@@ -4,17 +4,16 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { getManager, Repository } from 'typeorm';
-import { Sample } from './entity/sample.entity';
+import { Sample } from './sample.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SampleDto } from './dto/sample.dto';
+import { SampleDto } from './sample.dto';
 import { unlink } from 'fs/promises';
 import { Stock } from '../stock/stock.entity';
-import { SampleInfo } from './entity/sampleInfo.entity';
-import { SampleStock } from './entity/sampleStock.entity';
-import { SampleTarget } from './entity/sampleTarget.entity';
-import { SampleTargetDto } from './dto/sampleTarget.dto';
-import { SampleTargetTime } from './entity/sampleTargetTime.entity';
-import { SampleTargetTimeDto } from './dto/sampleTargetTime.dto';
+import { SampleInfo } from './info/info.entity';
+import { SampleStock } from './stock/stock.entity';
+import { SampleTarget } from './target/target.entity';
+import { SampleTargetDto } from './target/target.dto';
+import { SampleTargetTime } from './target/time/time.entity';
 
 @Injectable()
 export class SampleService {
@@ -23,14 +22,6 @@ export class SampleService {
     private readonly sampleRepository: Repository<Sample>,
     @InjectRepository(Stock)
     private readonly stockRepository: Repository<Stock>,
-    @InjectRepository(SampleInfo)
-    private readonly sampleInfoRepository: Repository<SampleInfo>,
-    @InjectRepository(SampleStock)
-    private readonly sampleStockRepository: Repository<SampleStock>,
-    @InjectRepository(SampleTarget)
-    private readonly sampleTargetRepository: Repository<SampleTarget>,
-    @InjectRepository(SampleTargetTime)
-    private readonly sampleTargetTimeRepository: Repository<SampleTargetTime>,
   ) {}
 
   async updateSample(sampleId: number, sampleDto: SampleDto) {
@@ -54,16 +45,6 @@ export class SampleService {
 
         delete sampleDto.sampleStock;
       }
-
-      // if (sampleDto.sampleTargets) {
-      //   await transactionEntityManager.update(
-      //     SampleTarget,
-      //     { sampleId },
-      //     sampleDto.sampleTarget,
-      //   );
-      //
-      //   delete sampleDto.sampleTargets;
-      // }
 
       const result = await transactionEntityManager.update(
         Sample,
@@ -98,20 +79,6 @@ export class SampleService {
     });
 
     return sampleDto;
-  }
-
-  async createSampleTarget(sampleTargetDto: SampleTargetDto) {
-    const target = await this.sampleTargetRepository.findOne(sampleTargetDto);
-
-    if (!target) {
-      return await this.sampleTargetRepository.save(sampleTargetDto);
-    }
-
-    return target;
-  }
-
-  async deleteSampleTarget(sampleTargetDto: SampleTargetDto) {
-    return this.sampleTargetRepository.delete(sampleTargetDto);
   }
 
   async getSampleAll(query: Record<string, unknown>) {
@@ -229,18 +196,6 @@ export class SampleService {
     }
   }
 
-  async createSampleTargetTime(sampleTargetTime: SampleTargetTimeDto) {
-    const duplicate = await this.sampleTargetTimeRepository.findOne({
-      startAt: sampleTargetTime.startAt,
-      endAt: sampleTargetTime.endAt,
-      isDeleted: false,
-    });
-
-    if (duplicate) throw Error('Duplicated Time');
-
-    return this.sampleTargetTimeRepository.save(sampleTargetTime);
-  }
-
   async recommendSample(taxiId: number, sampleTargetDto: SampleTargetDto) {
     const { age, isMale } = sampleTargetDto;
 
@@ -289,29 +244,5 @@ export class SampleService {
         'ASC',
       )
       .getMany();
-  }
-
-  async getAllSampleTime() {
-    return this.sampleTargetTimeRepository.find({ isDeleted: true });
-  }
-
-  async updateSampleTime(
-    sampleTargetTimeId: number,
-    sampleTargetTime: SampleTargetTimeDto,
-  ) {
-    return this.sampleTargetTimeRepository.update(
-      { id: sampleTargetTimeId },
-      sampleTargetTime,
-    );
-  }
-
-  async deleteSampleTime(sampleTargetTimeId: number) {
-    const duplicate = await this.sampleTargetTimeRepository.findOne({
-      id: sampleTargetTimeId,
-      isDeleted: false,
-    });
-    if (duplicate) throw new Error('Duplicated Time');
-
-    return this.sampleTargetTimeRepository.delete({ id: sampleTargetTimeId });
   }
 }

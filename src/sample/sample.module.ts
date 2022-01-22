@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
-import { SampleController, SampleTimeController } from './sample.controller';
+import { SampleController } from './sample.controller';
 import { SampleService } from './sample.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Sample } from './entity/sample.entity';
+import { Sample } from './sample.entity';
 import { Stock } from '../stock/stock.entity';
-import { SampleInfo } from './entity/sampleInfo.entity';
-import { SampleStock } from './entity/sampleStock.entity';
+import { SampleInfo } from './info/info.entity';
+import { SampleStock } from './stock/stock.entity';
 import { CustomerModule } from '../customer/customer.module';
-import { SampleTarget } from './entity/sampleTarget.entity';
-import { SampleTargetTime } from './entity/sampleTargetTime.entity';
+import { SampleTarget } from './target/target.entity';
+import { SampleTargetTime } from './target/time/time.entity';
+import { InfoModule } from './info/info.module';
+import { StockModule } from './stock/stock.module';
+import { TargetModule } from './target/target.module';
+import { SampleTimeController } from './target/time/time.controller';
+import { TimeModule } from './target/time/time.module';
 
 @Module({
   imports: [
@@ -21,6 +26,10 @@ import { SampleTargetTime } from './entity/sampleTargetTime.entity';
       SampleTargetTime,
     ]),
     CustomerModule,
+    InfoModule,
+    StockModule,
+    TargetModule,
+    TimeModule,
   ],
   controllers: [SampleController, SampleTimeController],
   providers: [SampleService],

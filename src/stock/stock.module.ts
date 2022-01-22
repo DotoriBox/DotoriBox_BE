@@ -3,8 +3,8 @@ import { StockController } from './stock.controller';
 import { StockService } from './stock.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Stock } from './stock.entity';
-import { Sample } from '../sample/entity/sample.entity';
-import { SampleStock } from '../sample/entity/sampleStock.entity';
+import { Sample } from '../sample/sample.entity';
+import { SampleStock } from '../sample/stock/stock.entity';
 import { Taxi } from '../driver/taxi/taxi.entity';
 
 @Module({
