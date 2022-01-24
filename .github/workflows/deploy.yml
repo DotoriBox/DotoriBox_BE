@@ -61,6 +61,10 @@ jobs:
           NEST_PORT: ${{ secrets.NEST_PORT }}
           PASSWORD: ${{ secrets.PASSWORD }}
           USERNAME: ${{ secrets.USERNAME }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_CALLBACK_URL: ${{ secrets.NAVER_CALLBACK_URL }}
 
       - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
