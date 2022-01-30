@@ -63,7 +63,7 @@ export class SampleController {
   }
 
   @Put(':sampleId/image')
-  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  @UseInterceptors(FileInterceptor('attachments', multerOptions('sample')))
   async attachImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('sampleId') sampleId: number,
@@ -72,7 +72,7 @@ export class SampleController {
   }
 
   @Put(':sampleId/card-image')
-  @UseInterceptors(FileInterceptor('attachments', multerOptions))
+  @UseInterceptors(FileInterceptor('attachments', multerOptions('card_sample')))
   async attachCardImage(
     @UploadedFile() file: Express.Multer.File,
     @Param('sampleId') sampleId: number,
