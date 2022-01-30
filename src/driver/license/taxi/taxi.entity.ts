@@ -10,7 +10,9 @@ export class TaxiLicense {
   @Column()
   registrationNumber: string;
   @Column()
-  TaxiLicensePic: string;
+  TaxiLicensePicFront: string;
+  @Column()
+  TaxiLicensePicBack: string;
   @OneToOne(() => Driver, (driver) => driver.taxiLicense)
   driver: Driver;
   @Column({ nullable: true })

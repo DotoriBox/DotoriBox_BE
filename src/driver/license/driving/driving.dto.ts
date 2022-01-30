@@ -2,6 +2,7 @@ export interface DrivingLicenseDto {
   licenseNumber: string;
   regNumber: string;
   passcode: string;
-  DriverLicensePic: string;
+  DriverLicensePicFront: string;
+  DriverLicensePicBack: string;
   driverId: number;
 }

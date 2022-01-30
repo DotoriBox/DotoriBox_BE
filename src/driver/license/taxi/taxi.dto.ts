@@ -1,6 +1,7 @@
 export interface TaxiLicenseDto {
   licenseNumber: number;
   registrationNumber: string;
-  TaxiLicensePic: string;
+  TaxiLicensePicFront: string;
+  TaxiLicensePicBack: string;
   driverId: number;
 }
