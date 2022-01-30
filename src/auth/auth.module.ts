@@ -23,6 +23,7 @@ import { JwtStrategy } from './strategy/local.strategy';
     TokenModule,
     DriverModule,
     HttpModule,
+    InfoModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, NaverStrategy, JwtStrategy],

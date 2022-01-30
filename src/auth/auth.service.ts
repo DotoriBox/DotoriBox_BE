@@ -8,6 +8,7 @@ import { v4 } from 'uuid';
 import { TokenService } from '../driver/token/token.service';
 import { userInfo } from 'os';
 import { DriverDto } from '../driver/driver.dto';
+import { InfoService } from '../driver/info/info.service';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private readonly driverTokenRepository: Repository<DriverToken>,
     private readonly tokenService: TokenService,
     private readonly jwtService: JwtService,
+    private readonly infoService: InfoService,
   ) {}
 
   async createDriverToken(driverDto: DriverDto) {
@@ -23,6 +25,7 @@ export class AuthService {
       id: driverDto.id,
       phoneNumber: driverDto.phoneNumber,
       uuid: v4(),
+      role: driverDto.role,
     };
 
     const refreshTokenPayload = {
@@ -55,9 +58,12 @@ export class AuthService {
       secret: process.env.JWT_SECRET,
     });
 
+    const user = await this.infoService.getDriverInfoById(info.id);
+
     const payload = {
       id: info.id,
       phoneNumber: info.phoneNumber,
+      role: user.role,
       uuid: v4(),
     };
 

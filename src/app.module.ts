@@ -34,7 +34,7 @@ import { AuthModule } from './auth/auth.module';
       type: 'mysql',
       host: process.env.HOST,
       port: 3306,
-      username: process.env.USERNAME,
+      username: process.env.DB_USERNAME,
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
       entities: [

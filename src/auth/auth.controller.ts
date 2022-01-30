@@ -1,6 +1,5 @@
-import { Controller, Get, Redirect, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Redirect, Req, Res, UseGuards } from '@nestjs/common';
 import { NaverAuthGuard } from './guard/naver-auth.guard';
-import { JwtAuthGuard } from './guard/local.guard';
 
 @Controller('auth')
 export class AuthController {

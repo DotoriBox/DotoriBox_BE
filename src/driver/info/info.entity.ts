@@ -17,12 +17,14 @@ export class DriverInfo {
   isCorporation: boolean;
   @Column({ nullable: true })
   accountNumber: string;
-  @Column({ nullable: true })
+  @Column()
   residence: string;
-  @Column({ nullable: true })
+  @Column()
   drivingTime: number;
   @Column({ default: false })
   isDeleted: boolean;
+  @Column({ default: 'driver' })
+  role: string;
   @Column({ nullable: true })
   driverId: number;
   @OneToOne(() => Driver, (driver) => driver.driverInfo)
