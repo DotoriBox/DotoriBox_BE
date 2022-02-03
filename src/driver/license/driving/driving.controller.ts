@@ -6,9 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { DrivingService } from './driving.service';
 import { DrivingLicenseDto } from './driving.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from 'src/lib/multerOptions';
 
 @Controller('driving')
 export class DrivingController {
@@ -34,5 +39,15 @@ export class DrivingController {
     @Body() drivingLicense: DrivingLicenseDto,
   ) {
     return this.drivingService.updateDrivingLicense(id, drivingLicense);
+  }
+
+  @Put(':id/image')
+  @UseInterceptors(FileInterceptor('attachments', multerOptions('driver_license')))
+  async addDrivingLicenseImage(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: number,
+    @Query('isFront') isFront: boolean
+  ) {
+    return this.drivingService.createDrivingLicenseImage(id, isFront, file);
   }
 }

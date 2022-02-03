@@ -13,6 +13,7 @@ import { DrivingLicense } from './license/driving/driving.entity';
 import { TaxiLicense } from './license/taxi/taxi.entity';
 import { Taxi } from './taxi/taxi.entity';
 import { Customer } from '../customer/customer.entity';
+import { LicenseImage } from './license/image/image.entity';
 
 @Entity()
 export class Driver {
@@ -32,6 +33,8 @@ export class Driver {
   taxiLicense: TaxiLicense;
   @OneToOne(() => Taxi, (taxi) => taxi.driver)
   taxi: Taxi;
+  @OneToOne(() => LicenseImage, (licenseimage) => licenseimage.driver)
+  licenseImage: LicenseImage;
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',

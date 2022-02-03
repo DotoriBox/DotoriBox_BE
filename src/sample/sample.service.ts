@@ -119,15 +119,13 @@ export class SampleService {
     if (!result) throw new NotFoundException();
     if (result.image !== undefined)
       await unlink(
-        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/card/' +
+        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/sample/' +
           result.image,
       );
     return result;
   }
 
   async createSampleCardImage(sampleId: number, file) {
-    console.log(file);
-
     const result: any = await this.sampleRepository.update(
       {
         id: sampleId,
@@ -141,7 +139,7 @@ export class SampleService {
     if (!result) throw new NotFoundException();
     if (result.cardImage !== undefined)
       await unlink(
-        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/miniCard/' +
+        'https://dotori-resource.s3.ap-northeast-2.amazonaws.com/images/card_sample/' +
           result.cardImage,
       );
     return result;

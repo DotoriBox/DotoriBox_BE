@@ -16,11 +16,11 @@ AWS.config.update({
 
 export const multerOptions = (type: string) => {
   if (
-      type != 'sample' && 
-      type != 'taxi_license' && 
-      type != 'driver_license' && 
-      type != 'card_sample'
-    )
+    type != 'sample' &&
+    type != 'taxi_license' &&
+    type != 'driver_license' &&
+    type != 'card_sample'
+  )
     throw new Error('Invalid Image Type');
 
   return {
@@ -56,5 +56,5 @@ export const multerOptions = (type: string) => {
         cb(null, `images/${type}/${uuid()}${extname(file.originalname)}`);
       },
     }),
-  }
+  };
 };
