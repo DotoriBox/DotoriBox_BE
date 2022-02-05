@@ -42,14 +42,4 @@ export class DrivingService {
 
     return this.DrivingLicenseRepository.update({ id }, DrivingLicenseDto);
   }
-
-  async createDrivingLicenseImage(driverId: number, isFront: boolean, file) {
-    const updateBlob = isFront ? { DriverLicensePicFront: file.location } : { DriverLicensePicBack: file.location };
-    const result: any = await this.DrivingLicenseRepository.update({
-      driverId
-    }, updateBlob);
-
-    if (!result) throw new NotFoundException();
-    return result;
-  }
 }

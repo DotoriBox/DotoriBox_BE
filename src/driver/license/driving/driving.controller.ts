@@ -40,14 +40,4 @@ export class DrivingController {
   ) {
     return this.drivingService.updateDrivingLicense(id, drivingLicense);
   }
-
-  @Put(':id/image')
-  @UseInterceptors(FileInterceptor('attachments', multerOptions('driver_license')))
-  async addDrivingLicenseImage(
-    @UploadedFile() file: Express.Multer.File,
-    @Param('id') id: number,
-    @Query('isFront') isFront: boolean
-  ) {
-    return this.drivingService.createDrivingLicenseImage(id, isFront, file);
-  }
 }

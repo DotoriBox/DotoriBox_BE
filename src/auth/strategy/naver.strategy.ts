@@ -58,6 +58,7 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
     const Tokens = await this.authService.createDriverToken({
       id: user.id,
       phoneNumber: user.phoneNumber,
+      role: 'driver',
     });
 
     await this.tokenService.createToken(

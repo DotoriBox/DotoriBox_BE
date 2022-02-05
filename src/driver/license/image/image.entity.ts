@@ -11,7 +11,7 @@ export class LicenseImage {
   taxiLicenseImage: string;
   @Column({ nullable: true })
   driverId: number;
+  @OneToOne(() => Driver, (driver) => driver.licenseImage)
   @JoinColumn()
-  @OneToOne(() => Driver, (driver) => driver.drivingLicense)
   driver: Driver;
 }

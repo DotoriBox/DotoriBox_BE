@@ -23,6 +23,7 @@ import { DriverInfo } from './driver/info/info.entity';
 import { Taxi } from './driver/taxi/taxi.entity';
 import { Platform } from './driver/info/platform/platform.entity';
 import { AuthModule } from './auth/auth.module';
+import { LicenseImage } from './driver/license/image/image.entity';
 
 @Module({
   imports: [
@@ -34,7 +35,9 @@ import { AuthModule } from './auth/auth.module';
       type: 'mysql',
       host: process.env.HOST,
       port: 3306,
-      username: process.env.DB_USERNAME,
+      username: process.env.DB_USERNAME
+        ? process.env.DB_USERNAME
+        : process.env.USERNAME,
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
       entities: [
@@ -52,6 +55,7 @@ import { AuthModule } from './auth/auth.module';
         DriverInfo,
         Taxi,
         Platform,
+        LicenseImage,
       ],
       synchronize: true,
       migrationsRun: false,
