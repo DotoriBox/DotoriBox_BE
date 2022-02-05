@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { InfoService } from './info.service';
 import { CreateUserInfoDto, UpdateUserInfoDto } from './info.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -12,8 +20,11 @@ export class InfoController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  async createUserInfo(@Body() infoDto: CreateUserInfoDto) {
-    return this.infoService.createDriverInfo(infoDto);
+  async createUserInfo(@Body() infoDto: CreateUserInfoDto, @Req() request) {
+    return this.infoService.createDriverInfo({
+      ...infoDto,
+      driverId: request.user.id,
+    });
   }
 
   @UseGuards(AuthGuard('jwt'))
