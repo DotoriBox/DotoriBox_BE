@@ -11,9 +11,9 @@ import { Driver } from '../driver.entity';
 export class DriverToken {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ length: 300 })
   accessToken: string;
-  @Column()
+  @Column({ length: 300 })
   refreshToken: string;
   @Column({ nullable: true })
   driverId: number;

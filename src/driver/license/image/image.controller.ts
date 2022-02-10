@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -23,8 +24,8 @@ export class ImageController {
   @UseInterceptors(
     FileInterceptor('attachments', multerOptions('taxi_license')),
   )
-  async createTaxiLicenseImage(file: Express.Multer.File) {
-    return file.filename;
+  async createTaxiLicenseImage(@UploadedFile() file) {
+    return file.key.split('/')[file.key.split('/').length - 1];
   }
 
   @Post('driver-license')
@@ -32,8 +33,8 @@ export class ImageController {
   @UseInterceptors(
     FileInterceptor('attachments', multerOptions('driver_license')),
   )
-  async createDriverLicenseImage(file: Express.Multer.File) {
-    return file.filename;
+  async createDriverLicenseImage(@UploadedFile() file) {
+    return file.key.split('/')[file.key.split('/').length - 1];
   }
 
   @Post()
