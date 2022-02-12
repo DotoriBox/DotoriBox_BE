@@ -28,7 +28,10 @@ export class InfoService {
   }
 
   async getDriverInfoById(id: number) {
-    return this.driverInfoRepository.findOne({ id });
+    return this.driverInfoRepository.findOne(
+      { driverId: id },
+      { relations: ['platform', 'driver', 'driver.taxi'] },
+    );
   }
 
   async getDriverInfoByDto(userInfoDto: UpdateUserInfoDto) {

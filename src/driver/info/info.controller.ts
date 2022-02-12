@@ -27,11 +27,13 @@ export class InfoController {
     });
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
+  @Roles(Role.Driver)
+  @UseGuards(AuthGuard('jwt'))
   async getUserInfoById(@Param('id') id: number) {
     return this.infoService.getDriverInfoById(id);
   }
+
   @Get()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard('jwt'), RolesGuard)
