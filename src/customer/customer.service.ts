@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Customer } from './customer.entity';
 import { CustomerDto } from './customer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { subMonths } from 'date-fns';
 
 @Injectable()
 export class CustomerService {
@@ -36,7 +37,13 @@ export class CustomerService {
   }
 
   async getAllCustomerByTaxiId(taxiId: number) {
-    return this.customerRepository.find({ taxiId });
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    return this.customerRepository.find({
+      taxiId,
+      createdAt: Between(subMonths(firstDay, 5), firstDay),
+    });
   }
 
   async mostCommonCustomer(sampleId: number) {

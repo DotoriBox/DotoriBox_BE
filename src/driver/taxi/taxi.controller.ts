@@ -48,11 +48,16 @@ export class TaxiController {
     return this.customerService.getAllCustomerByTaxiId(taxiId);
   }
 
-  @Get('taxiId/sample/:sampleId')
+  @Get(':taxiId/sample/:sampleId')
   async getStockByStockId(
     @Param('taxiId') taxiId: number,
     @Param('sampleId') sampleId: number,
   ) {
     return this.stockService.getStock({ taxiId, sampleId });
+  }
+
+  @Get(':taxiId/stock')
+  async getStockInTaxi(@Body('taxiId') taxiId: number) {
+    return this.stockService.getStockAll(taxiId, {});
   }
 }
