@@ -74,7 +74,7 @@ export class AuthService {
 
     await this.tokenService.updateAccessToken(info.id, accessToken);
 
-    return { access_token: accessToken };
+    return { access_token: accessToken, id: info.id };
   }
 
   async verifyToken(token: string) {

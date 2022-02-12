@@ -69,6 +69,7 @@ export class NaverStrategy extends PassportStrategy(Strategy) {
 
     return {
       ...Tokens,
+      id: user.id,
       type: 'login',
     };
   }
