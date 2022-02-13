@@ -22,8 +22,8 @@ export class AuthController {
   async authCallBack(@Req() req, @Res({ passthrough: true }) res) {
     res.cookie('refresh_token', req.user.refresh_token, {
       httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 14),
     });
-
     return;
   }
 
