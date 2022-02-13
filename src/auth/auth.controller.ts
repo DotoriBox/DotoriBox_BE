@@ -16,10 +16,7 @@ import { Cookies } from './decorators/cookie.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Redirect(
-    'http://dotoribox-driver-fe.s3-website.kr.object.ncloudstorage.com/joinpage1',
-    301,
-  )
+  @Redirect('http://localhost:3000', 301)
   @UseGuards(NaverAuthGuard)
   @Get('/callback')
   async authCallBack(@Req() req, @Res() res) {

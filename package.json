@@ -9,6 +9,8 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start:release": "pm2 start ./dist/main.js",
+    "start:update": "pm2 reload ./dist/main.js",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
