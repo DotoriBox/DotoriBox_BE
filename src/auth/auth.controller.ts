@@ -7,30 +7,22 @@ import {
   UseGuards,
   Post,
   Body,
+  Query,
 } from '@nestjs/common';
-import { NaverAuthGuard } from './guard/naver-auth.guard';
 import { AuthService } from './auth.service';
 import { Cookies } from './decorators/cookie.decorator';
+import { HttpService } from '@nestjs/axios';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly httpService: HttpService,
+  ) {}
 
-  @Redirect('http://localhost:3000/joinpage1', 301)
-  @UseGuards(NaverAuthGuard)
-  @Get('/callback')
-  async authCallBack(@Req() req, @Res({ passthrough: true }) res) {
-    res.cookie('refresh_token', req.user.refresh_token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 14),
-    });
-    return;
-  }
-
-  @UseGuards(NaverAuthGuard)
-  @Get()
-  async authCall() {
-    return;
+  @Get('/')
+  async authCallBack(@Query('token') code: string) {
+    return this.authService.createUserInfo(code);
   }
 
   @Post('/refresh/access')

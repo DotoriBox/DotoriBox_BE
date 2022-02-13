@@ -1,24 +1,69 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DriverToken } from '../driver/token/token.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { UpdateUserInfoDto } from '../driver/info/info.dto';
 import { v4 } from 'uuid';
 import { TokenService } from '../driver/token/token.service';
-import { userInfo } from 'os';
 import { DriverDto } from '../driver/driver.dto';
 import { InfoService } from '../driver/info/info.service';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
+import { DriverService } from 'src/driver/driver.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(DriverToken)
-    private readonly driverTokenRepository: Repository<DriverToken>,
     private readonly tokenService: TokenService,
     private readonly jwtService: JwtService,
     private readonly infoService: InfoService,
+    private readonly httpService: HttpService,
+    private readonly driverService: DriverService,
   ) {}
+
+  async createUserInfo(accessToken: string) {
+    if (!accessToken) throw new HttpException('Invalid Code', 404);
+
+    const info = await firstValueFrom(
+      this.httpService.get('https://openapi.naver.com/v1/nid/me', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    );
+
+    const { mobile, name } = info.data.response;
+
+    let user = await this.driverService.getDriver({
+      phoneNumber: mobile,
+      name,
+    });
+
+    if (!user || !info) {
+      user = await this.driverService.createDriver({
+        phoneNumber: mobile,
+        name,
+      });
+    }
+
+    const Tokens = await this.createDriverToken({
+      id: user.id,
+      phoneNumber: user.phoneNumber,
+      role: 'driver',
+    });
+
+    await this.tokenService.createToken(
+      user.id,
+      Tokens.access_token,
+      Tokens.refresh_token,
+    );
+
+    return {
+      ...Tokens,
+      id: user.id,
+      type: 'login',
+    };
+  }
 
   async createDriverToken(driverDto: DriverDto) {
     const payload = {

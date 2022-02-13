@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { forwardRef, Inject, Module } from '@nestjs/common';
 import { LicenseModule } from './license/license.module';
 import { InfoModule } from './info/info.module';
 import { DriverController } from './driver.controller';
@@ -10,7 +10,7 @@ import { Driver } from './driver.entity';
 
 @Module({
   imports: [
-    LicenseModule,
+    forwardRef(() => LicenseModule),
     InfoModule,
     TaxiModule,
     TypeOrmModule.forFeature([Driver]),

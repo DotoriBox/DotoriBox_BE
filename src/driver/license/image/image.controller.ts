@@ -4,7 +4,7 @@ import {
   Delete,
   Param,
   Post,
-  Put,
+  Get,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -13,14 +13,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/lib/multerOptions';
 import { ImageService } from './image.service';
 import { ImageDto } from './image.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '../../../auth/guard/naver-auth.guard';
 
 @Controller('image')
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post('taxi-license')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('attachments', multerOptions('taxi_license')),
   )
@@ -29,7 +29,7 @@ export class ImageController {
   }
 
   @Post('driver-license')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('attachments', multerOptions('driver_license')),
   )
@@ -38,7 +38,7 @@ export class ImageController {
   }
 
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard)
   async createImageData(
     @Body() imageDto: ImageDto,
     @Param('driverId') driverId: number,
