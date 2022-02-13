@@ -98,5 +98,5 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd server
-            touch log.txt
+            npm run build
             npm run start:update

@@ -19,7 +19,7 @@ export class AuthController {
   @Redirect('http://localhost:3000/joinpage1', 301)
   @UseGuards(NaverAuthGuard)
   @Get('/callback')
-  async authCallBack(@Req() req, @Res() res) {
+  async authCallBack(@Req() req, @Res({ passthrough: true }) res) {
     res.cookie('refresh_token', req.user.refresh_token, {
       httpOnly: true,
     });

@@ -27,18 +27,18 @@ export class InfoController {
     });
   }
 
-  @Get(':id')
+  @Get(':driverId')
   @Roles(Role.Driver)
   @UseGuards(AuthGuard('jwt'))
-  async getUserInfoById(@Param('id') id: number) {
+  async getUserInfoById(@Param('driverId') id: number) {
     return this.infoService.getDriverInfoById(id);
   }
 
-  @Get()
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  async getUserInfo(@Body() userDto?: UpdateUserInfoDto) {
-    if (userDto) return this.infoService.getDriverInfoByDto(userDto);
-    return this.infoService.getDriverInfoAll();
-  }
+  // @Get()
+  // @Roles(Role.Admin)
+  // @UseGuards(AuthGuard('jwt'), RolesGuard)
+  // async getUserInfo(@Body() userDto?: UpdateUserInfoDto) {
+  //   if (userDto) return this.infoService.getDriverInfoByDto(userDto);
+  //   return this.infoService.getDriverInfoAll();
+  // }
 }
