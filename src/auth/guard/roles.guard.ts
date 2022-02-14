@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { ROLES_KEY } from '../decorators/role.decorator';
@@ -25,8 +30,9 @@ export class RolesGuard implements CanActivate {
       user &&
       user.id != params.driverId &&
       user.role == 'driver'
-    )
-      return false;
+    ) {
+      throw new ForbiddenException();
+    }
 
     return requiredRole == user.role;
   }

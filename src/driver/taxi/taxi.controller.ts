@@ -57,7 +57,7 @@ export class TaxiController {
   }
 
   @Get(':taxiId/stock')
-  async getStockInTaxi(@Body('taxiId') taxiId: number) {
+  async getStockInTaxi(@Param('taxiId') taxiId: number) {
     return this.stockService.getStockAll(taxiId, {});
   }
 }

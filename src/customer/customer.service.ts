@@ -37,12 +37,8 @@ export class CustomerService {
   }
 
   async getAllCustomerByTaxiId(taxiId: number) {
-    const now = new Date();
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-
     return this.customerRepository.find({
       taxiId,
-      createdAt: Between(subMonths(firstDay, 5), firstDay),
     });
   }
 

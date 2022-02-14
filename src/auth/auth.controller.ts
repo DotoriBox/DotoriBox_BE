@@ -20,7 +20,7 @@ export class AuthController {
     private readonly httpService: HttpService,
   ) {}
 
-  @Get('/')
+  @Get()
   async authCallBack(@Query('token') code: string) {
     return this.authService.createUserInfo(code);
   }

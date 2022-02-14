@@ -11,7 +11,7 @@ export class CustomerController {
     private readonly stockService: StockService,
   ) {}
 
-  @Post('')
+  @Post()
   async createCustomer(@Body() body) {
     const { stockDto, customerDto } = body;
     await this.stockService.useStock(stockDto);
