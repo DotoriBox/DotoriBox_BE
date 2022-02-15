@@ -34,11 +34,11 @@ export class InfoController {
     return this.infoService.getDriverInfoById(id);
   }
 
-  @Get()
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
-  async getUserInfo(@Body() userDto?: UpdateUserInfoDto) {
-    if (userDto) return this.infoService.getDriverInfoByDto(userDto);
-    return this.infoService.getDriverInfoAll();
-  }
+  // @Get()
+  // @Roles(Role.Admin)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // async getUserInfo(@Body() userDto?: UpdateUserInfoDto) {
+  //   if (userDto) return this.infoService.getDriverInfoByDto(userDto);
+  //   return this.infoService.getDriverInfoAll();
+  // }
 }
