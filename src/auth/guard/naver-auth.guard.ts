@@ -15,8 +15,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
-    console.log(request['access-token']);
-
     try {
       request.user = await this.authService.verifyToken(
         request.headers['access-token'],

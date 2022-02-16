@@ -56,5 +56,8 @@ export const multerOptions = (type: string) => {
         cb(null, `images/${type}/${uuid()}${extname(file.originalname)}`);
       },
     }),
+    limits: {
+      fileSize: 20 * 1024 * 1024,
+    },
   };
 };
