@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
         request.headers['access_token'],
       );
     } catch (error) {
+      console.log(error.message);
       switch (error.message) {
         case 'jwt must be provided':
           throw new UnauthorizedException();

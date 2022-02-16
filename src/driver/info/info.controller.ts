@@ -37,7 +37,9 @@ export class InfoController {
   @Get(':driverId/exist')
   @UseGuards(AuthGuard)
   async isUserInfoExist(@Param('driverId') id: number) {
-    return this.infoService.getDriverInfoById(id)
+    return (await (
+      await this.infoService.getDriverInfoIsExistById(id)
+    ).length) !== 0
       ? { isExist: true }
       : { isExist: false };
   }

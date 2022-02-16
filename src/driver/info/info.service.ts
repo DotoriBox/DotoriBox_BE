@@ -34,6 +34,10 @@ export class InfoService {
     );
   }
 
+  async getDriverInfoIsExistById(id: number) {
+    return this.driverInfoRepository.find({ driverId: id });
+  }
+
   async getDriverInfoByDto(userInfoDto: UpdateUserInfoDto) {
     return this.driverInfoRepository.findOne(userInfoDto);
   }
