@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Redirect,
-  Req,
-  Res,
-  UseGuards,
-  Post,
-  Body,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Cookies } from './decorators/cookie.decorator';
 import { HttpService } from '@nestjs/axios';
@@ -26,7 +16,7 @@ export class AuthController {
   }
 
   @Post('/refresh/access')
-  async refreshAccessToken(@Cookies('refresh_token') refreshToken: string) {
+  async refreshAccessToken(@Cookies('refresh-token') refreshToken: string) {
     return this.authService.refreshAccessToken(refreshToken);
   }
 }

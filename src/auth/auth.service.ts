@@ -1,7 +1,4 @@
 import { Injectable, HttpException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DriverToken } from '../driver/token/token.entity';
-import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { v4 } from 'uuid';
 import { TokenService } from '../driver/token/token.service';
@@ -54,8 +51,8 @@ export class AuthService {
 
     await this.tokenService.createToken(
       user.id,
-      Tokens.access_token,
-      Tokens.refresh_token,
+      Tokens['access-token'],
+      Tokens['refresh-token'],
     );
 
     return {
@@ -95,7 +92,7 @@ export class AuthService {
       refreshToken,
     );
 
-    return { access_token: accessToken, refresh_token: refreshToken };
+    return { 'access-token': accessToken, 'refresh-token': refreshToken };
   }
 
   async refreshAccessToken(token: string) {
@@ -119,7 +116,7 @@ export class AuthService {
 
     await this.tokenService.updateAccessToken(info.id, accessToken);
 
-    return { access_token: accessToken, id: info.id };
+    return { 'access-token': accessToken, id: info.id };
   }
 
   async verifyToken(token: string) {
