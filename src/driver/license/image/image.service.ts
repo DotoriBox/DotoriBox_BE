@@ -15,7 +15,7 @@ export class ImageService {
     driverLicenseImage: string,
     taxiLicenseImage: string,
   ) {
-    const driver = await this.imageRepository.create({
+    const driver = await this.imageRepository.save({
       driverId,
       driverLicenseImage,
       taxiLicenseImage,

@@ -1,13 +1,11 @@
 import {
   Body,
   Controller,
-  Delete,
-  Param,
   Post,
-  Get,
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  Req,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/lib/multerOptions';
@@ -39,12 +37,11 @@ export class ImageController {
 
   @Post()
   @UseGuards(AuthGuard)
-  async createImageData(
-    @Body() imageDto: ImageDto,
-    @Param('driverId') driverId: number,
-  ) {
+  async createImageData(@Req() req, @Body() imageDto: ImageDto) {
+    console.log(req.user.id);
+
     return this.imageService.setLicenseImage(
-      driverId,
+      req.user.id,
       imageDto.driverLicenseImage,
       imageDto.taxiLicenseImage,
     );
